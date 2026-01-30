@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark theme – same accent palette, minimal white */
+  --background: #1a1614;
+  --foreground: #f0ebe6;
+  --foreground-muted: #b8b0a8;
+  --surface-dark: #2c2520;
+  --surface-mid: #252019;
+  --surface-elevated: #2e2822;
+  --surface-beige: #3d3530;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-muted: rgba(255, 255, 255, 0.12);
+  --accent: #e07c3c;
+  --accent-hover: #c96a2f;
+  --radius-card: 1rem;
+  --radius-btn: 0.5rem;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-serif: var(--font-heading), Georgia, serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+/* Apply heading font to all headings by default */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.transition-default {
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Modal fade-in */
+.modal-overlay-enter {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.modal-overlay-enter.modal-overlay-visible {
+  opacity: 1;
+}
+.modal-content-enter {
+  opacity: 0;
+  transform: scale(0.98) translateY(4px);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.modal-content-enter.modal-content-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Scroll reveal – fast animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.scroll-reveal {
+  opacity: 0;
+}
+.scroll-reveal.scroll-reveal-visible {
+  animation: fade-in-up 0.35s ease-out forwards;
+}
+
+/* Barber cards – animate when segment is in view */
+@keyframes barber-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.barbers-in-view .barber-card {
+  animation: barber-card-in 0.5s ease-out forwards;
+}
+.barbers-in-view .barber-card:nth-child(1) { animation-delay: 0.05s; }
+.barbers-in-view .barber-card:nth-child(2) { animation-delay: 0.15s; }
+.barbers-in-view .barber-card:nth-child(3) { animation-delay: 0.25s; }
