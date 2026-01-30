@@ -3,21 +3,23 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+// Barbers from your existing Barbers table
+// IDs: 1 (Marko), 2 (Stefan), 3 (Nikola)
 const BARBERS = [
   {
-    id: "barber-1",
+    id: 1,
     name: "Marko",
     role: "Master Barber",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
   },
   {
-    id: "barber-2",
+    id: 2,
     name: "Stefan",
     role: "Senior Barber",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop",
   },
   {
-    id: "barber-3",
+    id: 3,
     name: "Nikola",
     role: "Barber",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop",
@@ -66,14 +68,16 @@ const TIME_SLOTS = [
   "17:00",
 ];
 
-const SERVICES = [
-  { id: "haircut", name: "Haircut", price: 40, duration: "30 min" },
-  { id: "shave", name: "Shave", price: 35, duration: "25 min" },
-  { id: "haircut-shave", name: "Haircut + Shave", price: 70, duration: "55 min" },
-  { id: "beard", name: "Beard trim", price: 15, duration: "15 min" },
-];
+// Services will be loaded from API (matches your existing Services table)
+type Service = {
+  id: number;
+  service_name: string;
+  price_rsd: number;
+  duration_minutes: number;
+  active: boolean;
+};
 
-type Step = 1 | 2 | 3 | 4;
+type Step = 1 | 2 | 3 | 4 | 5; // Added step 5 for success confirmation
 
 type DayOption = { id: string; label: string; date: Date };
 
@@ -96,9 +100,20 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
   const [selectedBarber, setSelectedBarber] = useState<(typeof BARBERS)[0] | null>(null);
   const [selectedDay, setSelectedDay] = useState<DayOption | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<(typeof SERVICES)[0] | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [contactForm, setContactForm] = useState<ContactForm>(initialContactForm);
   const [reveal, setReveal] = useState(false);
+  
+  // Service loading state
+  const [services, setServices] = useState<Service[]>([]);
+  const [servicesLoading, setServicesLoading] = useState(false);
+  const [servicesError, setServicesError] = useState<string | null>(null);
+  
+  // Booking submission state
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [reservationId, setReservationId] = useState<string | null>(null);
+  
   const weekDays = useMemo(() => getNextFiveWeekdays(), [open]);
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -176,6 +191,34 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
     }
   }, [open]);
 
+  // Fetch services when modal opens
+  useEffect(() => {
+    if (open && services.length === 0) {
+      fetchServices();
+    }
+  }, [open]);
+
+  const fetchServices = async () => {
+    setServicesLoading(true);
+    setServicesError(null);
+    
+    try {
+      const response = await fetch("/api/services");
+      const data = await response.json();
+      
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || "Failed to load services");
+      }
+      
+      setServices(data.services || []);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      setServicesError(error instanceof Error ? error.message : "Failed to load services");
+    } finally {
+      setServicesLoading(false);
+    }
+  };
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === overlayRef.current) onClose();
   };
@@ -187,7 +230,59 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
     setSelectedTime(null);
     setSelectedService(null);
     setContactForm(initialContactForm);
+    setBookingError(null);
+    setReservationId(null);
     onClose();
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!selectedBarber || !selectedDay || !selectedTime || !selectedService || !isContactValid) {
+      return;
+    }
+
+    setBookingLoading(true);
+    setBookingError(null);
+
+    try {
+      // Build ISO datetime strings for start and end times
+      const [hours, minutes] = selectedTime.split(":").map(Number);
+      const startDateTime = new Date(selectedDay.date);
+      startDateTime.setHours(hours, minutes, 0, 0);
+
+      const endDateTime = new Date(startDateTime);
+      endDateTime.setMinutes(endDateTime.getMinutes() + selectedService.duration_minutes);
+
+      const payload = {
+        barberId: selectedBarber.id,
+        serviceId: selectedService.id,
+        customerName: `${contactForm.name} ${contactForm.surname}`,
+        customerPhone: contactForm.mobile,
+        customerEmail: contactForm.email || undefined,
+        startTime: startDateTime.toISOString(),
+        endTime: endDateTime.toISOString(),
+        notes: undefined,
+      };
+
+      const response = await fetch("/api/reservations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || "Failed to create reservation");
+      }
+
+      setReservationId(data.reservationId);
+      setStep(5); // Move to success screen
+    } catch (error) {
+      console.error("Error creating reservation:", error);
+      setBookingError(error instanceof Error ? error.message : "Failed to create reservation");
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   const updateContact = (field: keyof ContactForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,15 +333,17 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
 
         <div className="flex-1 overflow-y-auto px-6 py-6">
           {/* Step indicator */}
-          <div className="mb-6 flex gap-2">
-            {([1, 2, 3, 4] as const).map((s) => (
-              <span
-                key={s}
-                className={`h-1.5 flex-1 rounded-full transition-colors ${step >= s ? "bg-[var(--accent)]" : "bg-[var(--surface-beige)]"}`}
-                aria-hidden
-              />
-            ))}
-          </div>
+          {step < 5 && (
+            <div className="mb-6 flex gap-2">
+              {([1, 2, 3, 4] as const).map((s) => (
+                <span
+                  key={s}
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${step >= s ? "bg-[var(--accent)]" : "bg-[var(--surface-beige)]"}`}
+                  aria-hidden
+                />
+              ))}
+            </div>
+          )}
 
           {step === 1 && (
             <div>
@@ -348,31 +445,62 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
               <h3 className="mb-4 font-semibold text-[var(--foreground)]">
                 Select service
               </h3>
-              <ul className="space-y-2">
-                {SERVICES.map((service) => (
-                  <li key={service.id}>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedService(service)}
-                      className={`flex w-full items-center justify-between rounded-[var(--radius-card)] border-2 p-4 text-left transition-default focus-ring ${
-                        selectedService?.id === service.id
-                          ? "border-[var(--accent)] bg-[var(--accent)]/15"
-                          : "border-[var(--border-muted)] hover:border-[var(--foreground-muted)]"
-                      }`}
-                    >
+              
+              {servicesLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--accent)] border-t-transparent"></div>
+                  <span className="ml-3 text-sm text-[var(--foreground-muted)]">Loading services...</span>
+                </div>
+              )}
+              
+              {servicesError && (
+                <div className="rounded-[var(--radius-card)] bg-red-50 border border-red-200 p-4">
+                  <p className="text-sm text-red-800 mb-3">{servicesError}</p>
+                  <button
+                    type="button"
+                    onClick={fetchServices}
+                    className="rounded-[var(--radius-btn)] bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-default hover:bg-red-700"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              
+              {!servicesLoading && !servicesError && services.length === 0 && (
+                <p className="py-8 text-center text-sm text-[var(--foreground-muted)]">
+                  No services available at the moment.
+                </p>
+              )}
+              
+              {!servicesLoading && !servicesError && services.length > 0 && (
+                <ul className="space-y-2">
+                  {services.map((service) => (
+                    <li key={service.id}>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedService(service)}
+                        className={`flex w-full items-center justify-between rounded-[var(--radius-card)] border-2 p-4 text-left transition-default focus-ring ${
+                          selectedService?.id === service.id
+                            ? "border-[var(--accent)] bg-[var(--accent)]/15"
+                            : "border-[var(--border-muted)] hover:border-[var(--foreground-muted)]"
+                        }`}
+                      >
                       <span>
                         <span className="block font-medium text-[var(--foreground)]">
-                          {service.name}
+                          {service.service_name}
                         </span>
-                        <span className="text-sm text-[var(--foreground-muted)]">{service.duration}</span>
+                        <span className="text-sm text-[var(--foreground-muted)]">
+                          {service.duration_minutes} min
+                        </span>
                       </span>
                       <span className="font-bold text-[var(--accent)]">
-                        €{service.price}
+                        {service.price_rsd} RSD
                       </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
 
@@ -398,10 +526,10 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 </p>
                 <p className="mt-2 text-sm text-[var(--foreground-muted)]">
                   <strong className="text-[var(--foreground)]">Service:</strong>{" "}
-                  {selectedService?.name} — €{selectedService?.price}
+                  {selectedService?.service_name} — {selectedService?.price_rsd} RSD
                 </p>
                 <p className="mt-4 text-lg font-bold text-[var(--foreground)]">
-                  Total: €{selectedService?.price ?? 0}
+                  Total: {selectedService?.price_rsd ?? 0} RSD
                 </p>
               </div>
 
@@ -463,19 +591,80 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 </label>
               </form>
 
-              <p className="mt-4 text-sm text-[var(--foreground-muted)]">
-                This is a demo. No booking is sent. Fill in your details and click &quot;Confirm&quot; to close.
+              {bookingError && (
+                <div className="mt-4 rounded-[var(--radius-card)] bg-red-50 border border-red-200 p-3">
+                  <p className="text-sm text-red-800">{bookingError}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {step === 5 && (
+            <div className="text-center py-8">
+              <div className="mb-6 flex justify-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                  <svg
+                    className="h-8 w-8 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+              
+              <h3 className="mb-2 text-xl font-bold text-[var(--foreground)]">
+                Booking Confirmed!
+              </h3>
+              
+              <p className="mb-4 text-sm text-[var(--foreground-muted)]">
+                Your reservation has been successfully created.
+              </p>
+              
+              <div className="mx-auto max-w-sm rounded-[var(--radius-card)] bg-[var(--surface-mid)] border border-[var(--border-subtle)] p-4 text-left">
+                <p className="text-xs text-[var(--foreground-muted)] mb-2">
+                  <strong>Reservation ID:</strong> {reservationId}
+                </p>
+                <p className="text-sm text-[var(--foreground-muted)]">
+                  <strong className="text-[var(--foreground)]">Barber:</strong>{" "}
+                  {selectedBarber?.name}
+                </p>
+                <p className="mt-2 text-sm text-[var(--foreground-muted)]">
+                  <strong className="text-[var(--foreground)]">When:</strong>{" "}
+                  {selectedDay
+                    ? `${selectedDay.label}, ${formatDayDate(selectedDay.date)} at ${selectedTime}`
+                    : ""}
+                </p>
+                <p className="mt-2 text-sm text-[var(--foreground-muted)]">
+                  <strong className="text-[var(--foreground)]">Service:</strong>{" "}
+                  {selectedService?.service_name}
+                </p>
+                <p className="mt-2 text-sm text-[var(--foreground-muted)]">
+                  <strong className="text-[var(--foreground)]">Total:</strong>{" "}
+                  {selectedService?.price_rsd} RSD
+                </p>
+              </div>
+              
+              <p className="mt-6 text-sm text-[var(--foreground-muted)]">
+                We&apos;ll send you a confirmation email shortly.
               </p>
             </div>
           )}
         </div>
 
         <div className="flex justify-between gap-3 border-t border-[var(--border-subtle)] px-6 py-4">
-          {step > 1 ? (
+          {step > 1 && step < 5 ? (
             <button
               type="button"
               onClick={() => setStep((s) => (s - 1) as Step)}
               className="rounded-[var(--radius-btn)] border-2 border-[var(--border-muted)] px-4 py-2.5 text-sm font-semibold text-[var(--foreground)] transition-default focus-ring hover:border-[var(--foreground-muted)]"
+              disabled={bookingLoading}
             >
               Back
             </button>
@@ -503,14 +692,29 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             >
               Next
             </button>
+          ) : step === 4 ? (
+            <button
+              type="button"
+              onClick={handleConfirmBooking}
+              disabled={!isContactValid || bookingLoading}
+              className="rounded-[var(--radius-btn)] bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition-default focus-ring hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {bookingLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                  Booking...
+                </span>
+              ) : (
+                "Confirm Booking"
+              )}
+            </button>
           ) : (
             <button
               type="button"
               onClick={resetAndClose}
-              disabled={!isContactValid}
-              className="rounded-[var(--radius-btn)] bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition-default focus-ring hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-[var(--radius-btn)] bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition-default focus-ring hover:bg-[var(--accent-hover)]"
             >
-              Confirm
+              Close
             </button>
           )}
         </div>
