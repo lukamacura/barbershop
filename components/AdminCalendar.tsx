@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AdminDatePicker } from "@/components/AdminDatePicker";
 
@@ -34,6 +34,12 @@ function formatTime(date: Date): string {
   return date.toTimeString().slice(0, 5);
 }
 
+/** Reservation time as local HH:mm (avoids UTC vs local mismatch in admin). */
+function getLocalTimeString(isoString: string): string {
+  const d = new Date(isoString);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
 function timeSlots(): string[] {
   const slots: string[] = [];
   for (let h = HOUR_START; h < HOUR_END; h++) {
@@ -46,6 +52,11 @@ function timeSlots(): string[] {
 
 function pixelPerMinute(): number {
   return 2.2;
+}
+
+/** Total height of the day column in px (so blocks stay inside). */
+function dayColumnHeightPx(): number {
+  return (HOUR_END - HOUR_START) * 60 * pixelPerMinute();
 }
 
 export function AdminCalendar({
@@ -109,6 +120,7 @@ export function AdminCalendar({
   const dayStartMinutes = HOUR_START * 60;
   const pxPerMin = pixelPerMinute();
 
+  /** Block position relative to day column (local time). */
   const getBlockStyle = (r: Reservation) => {
     const startDate = new Date(r.start_time);
     const endDate = new Date(r.end_time);
@@ -265,89 +277,87 @@ export function AdminCalendar({
                   className="admin-schedule-grid grid min-w-[580px]"
                   style={{
                     gridTemplateColumns: `72px repeat(${columns}, minmax(150px, 1fr))`,
+                    gridTemplateRows: `auto repeat(${slots.length}, ${SLOT_MINUTES * pxPerMin}px)`,
                   }}
                 >
-                  <div className="border-r border-b border-[var(--border-subtle)] bg-[var(--surface-mid)]/50 p-2" />
-                  {displayBarbers.map((b) => (
+                  {/* Row 0: header */}
+                  <div className="border-r border-b border-[var(--border-subtle)] bg-[var(--surface-mid)]/50 p-2" style={{ gridColumn: 1, gridRow: 1 }} />
+                  {displayBarbers.map((b, colIndex) => (
                     <div
                       key={b.id}
                       className="border-b border-r border-[var(--border-subtle)] bg-[var(--surface-mid)]/50 px-3 py-4 text-center text-sm font-semibold text-[var(--foreground)]"
+                      style={{ gridColumn: colIndex + 2, gridRow: 1 }}
                     >
                       {b.name}
                     </div>
                   ))}
                   {displayBarbers.length === 0 && (
-                    <div className="border-b border-r border-[var(--border-subtle)] px-3 py-4 text-center text-sm text-[var(--foreground-muted)]">
+                    <div
+                      className="border-b border-r border-[var(--border-subtle)] px-3 py-4 text-center text-sm text-[var(--foreground-muted)]"
+                      style={{ gridColumn: 2, gridRow: 1 }}
+                    >
                       —
                     </div>
                   )}
-                  {slots.map((slot) => (
-                    <Fragment key={slot}>
-                      <div className="border-r border-b border-[var(--border-subtle)] py-1.5 pr-2 text-right text-xs font-medium text-[var(--foreground-muted)]">
-                        {slot}
-                      </div>
-                      {displayBarbers.length > 0
-                        ? displayBarbers.map((barber) => {
-                            const colReservations = reservations.filter(
-                              (r) => r.barber_id === barber.id
-                            );
-                            return (
-                              <div
-                                key={`${slot}-${barber.id}`}
-                                className="relative border-b border-r border-[var(--border-subtle)] last:border-r-0"
-                                style={{
-                                  minHeight: `${SLOT_MINUTES * pxPerMin}px`,
-                                }}
-                              >
-                                {colReservations
-                                  .filter((r) => {
-                                    const start = new Date(r.start_time);
-                                    const rs = `${String(start.getHours()).padStart(2, "0")}:${String(start.getMinutes()).padStart(2, "0")}`;
-                                    return rs === slot;
-                                  })
-                                  .map((r) => {
-                                    const svc = serviceMap[r.service_id];
-                                    return (
-                                      <button
-                                        key={r.id}
-                                        type="button"
-                                        onClick={() =>
-                                          setSelectedReservation({
-                                            r,
-                                            service: svc,
-                                            barber,
-                                          })
-                                        }
-                                        className="admin-reservation-block absolute left-1.5 right-1.5 rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2.5 py-1.5 text-left text-xs transition-all hover:border-[var(--accent)]/60 hover:bg-[var(--accent)]/25 focus-ring"
-                                        style={getBlockStyle(r)}
-                                      >
-                                        <span className="block truncate font-semibold text-[var(--foreground)]">
-                                          {r.customer_name || r.customer_phone || "—"}
-                                        </span>
-                                        <span className="block truncate text-[var(--foreground-muted)]">
-                                          {svc?.service_name ?? "Service"}
-                                        </span>
-                                        <span className="block truncate text-[10px] text-[var(--foreground-muted)]">
-                                          {formatTime(new Date(r.start_time))}–
-                                          {formatTime(new Date(r.end_time))}
-                                        </span>
-                                      </button>
-                                    );
-                                  })}
-                              </div>
-                            );
-                          })
-                        : [
-                            <div
-                              key={`${slot}-empty`}
-                              className="relative border-b border-r border-[var(--border-subtle)]"
-                              style={{
-                                minHeight: `${SLOT_MINUTES * pxPerMin}px`,
-                              }}
-                            />,
-                          ]}
-                    </Fragment>
+                  {/* Time column: one row per slot (local time) */}
+                  {slots.map((slot, rowIndex) => (
+                    <div
+                      key={slot}
+                      className="border-r border-b border-[var(--border-subtle)] py-1.5 pr-2 text-right text-xs font-medium text-[var(--foreground-muted)]"
+                      style={{ gridColumn: 1, gridRow: rowIndex + 2 }}
+                    >
+                      {slot}
+                    </div>
                   ))}
+                  {/* One day-height column per barber so blocks stay inside */}
+                  {displayBarbers.length > 0 &&
+                    displayBarbers.map((barber, colIndex) => {
+                      const colReservations = reservations.filter(
+                        (r) => r.barber_id === barber.id
+                      );
+                      return (
+                        <div
+                          key={barber.id}
+                          className="relative border-r border-[var(--border-subtle)] last:border-r-0"
+                          style={{
+                            gridColumn: colIndex + 2,
+                            gridRow: "2 / -1",
+                            minHeight: `${dayColumnHeightPx()}px`,
+                            overflow: "visible",
+                          }}
+                        >
+                          {colReservations.map((r) => {
+                            const svc = serviceMap[r.service_id];
+                            return (
+                              <button
+                                key={r.id}
+                                type="button"
+                                onClick={() =>
+                                  setSelectedReservation({
+                                    r,
+                                    service: svc,
+                                    barber,
+                                  })
+                                }
+                                className="admin-reservation-block absolute left-1.5 right-1.5 rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2.5 py-1.5 text-left text-xs transition-all hover:border-[var(--accent)]/60 hover:bg-[var(--accent)]/25 focus-ring"
+                                style={getBlockStyle(r)}
+                              >
+                                <span className="block truncate font-semibold text-[var(--foreground)]">
+                                  {r.customer_name || r.customer_phone || "—"}
+                                </span>
+                                <span className="block truncate text-[var(--foreground-muted)]">
+                                  {svc?.service_name ?? "Service"}
+                                </span>
+                                <span className="block truncate text-[10px] text-[var(--foreground-muted)]">
+                                  {getLocalTimeString(r.start_time)}–
+                                  {getLocalTimeString(r.end_time)}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
                 </div>
               )}
             </div>
@@ -416,8 +426,8 @@ export function AdminCalendar({
                   Reservation details
                 </h3>
                 <p className="mt-0.5 text-sm text-[var(--foreground-muted)]">
-                  {formatTime(new Date(selectedReservation.r.start_time))} –{" "}
-                  {formatTime(new Date(selectedReservation.r.end_time))}
+                  {getLocalTimeString(selectedReservation.r.start_time)} –{" "}
+                  {getLocalTimeString(selectedReservation.r.end_time)}
                 </p>
               </div>
               <button
