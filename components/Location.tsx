@@ -39,7 +39,7 @@ export function Location() {
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 min-h-[48px] rounded-lg bg-[#FFA400] px-6 py-3.5 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833]"
+            className="inline-flex items-center gap-2 min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3.5 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A]"
           >
             Get directions
             <span aria-hidden>→</span>
@@ -48,9 +48,9 @@ export function Location() {
         
         {/* Info cards */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-start gap-4 rounded-[14px] bg-[#141417] border border-[#2A2A2F] p-5">
+          <div className="flex items-start gap-4 rounded-sm bg-[#141417] border border-[#2A2A2F] p-5">
             <span
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#FFA400] text-[#0A0A0B]"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-[#1A1A1F] border border-[#3A3A40] text-[#F5F5F7]"
               aria-hidden
             >
               <LocationIcon />
@@ -66,9 +66,9 @@ export function Location() {
             </div>
           </div>
           
-          <div className="flex items-start gap-4 rounded-[14px] bg-[#141417] border border-[#2A2A2F] p-5">
+          <div className="flex items-start gap-4 rounded-sm bg-[#141417] border border-[#2A2A2F] p-5">
             <span
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#FFA400] text-[#0A0A0B]"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-[#1A1A1F] border border-[#3A3A40] text-[#F5F5F7]"
               aria-hidden
             >
               <ClockIcon />
@@ -94,7 +94,7 @@ export function Location() {
         {/* Map placeholder */}
         <div className="lg:col-span-3">
           <div
-            className="rounded-[14px] bg-[#141417] border border-[#2A2A2F] h-72 w-full overflow-hidden lg:h-80"
+            className="rounded-sm bg-[#141417] border border-[#2A2A2F] h-72 w-full overflow-hidden lg:h-80"
             aria-hidden
           >
             <div className="flex h-full w-full items-center justify-center text-[#6B6B70] text-lg">

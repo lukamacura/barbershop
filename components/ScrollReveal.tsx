@@ -1,35 +1,42 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 
-export function ScrollReveal({
-  children,
-  className = "",
-}: {
+interface ScrollRevealProps {
   children: ReactNode;
-  className?: string;
-}) {
+}
+
+export function ScrollReveal({ children }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const element = ref.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("scroll-reveal-visible");
+            observer.unobserve(entry.target);
+          }
+        });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -24px 0px" }
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className={`scroll-reveal ${visible ? "scroll-reveal-visible" : ""} ${className}`.trim()}
-    >
+    <div ref={ref} className="scroll-reveal">
       {children}
     </div>
   );

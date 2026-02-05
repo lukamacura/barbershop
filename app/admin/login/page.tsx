@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full min-h-[48px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25"
+              className="w-full min-h-[48px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#D3AF37] focus:outline-none focus:ring-2 focus:ring-[#D3AF37]/25"
               placeholder="Enter password"
               autoFocus
             />
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading || !password}
-            className="w-full min-h-[48px] rounded-lg bg-[#FFA400] py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full min-h-[48px] rounded-lg bg-[#D3AF37] py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Log in"}
           </button>

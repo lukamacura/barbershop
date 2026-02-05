@@ -248,14 +248,14 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
     >
       <div
         ref={modalRef}
-        className={`modal-content-enter flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-[20px] bg-[#141417] border border-[#2A2A2F] shadow-2xl ${reveal ? "modal-content-visible" : ""}`}
+        className={`modal-content-enter flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-sm bg-[#141417] border border-[#2A2A2F] shadow-2xl ${reveal ? "modal-content-visible" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#2A2A2F] px-6 py-5">
           <h2 id="booking-modal-title" className="text-xl font-bold text-[#F5F5F7]">Book appointment</h2>
           <button type="button" onClick={resetAndClose}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-[#A1A1A6] transition-default focus-ring hover:bg-[#1A1A1F] hover:text-[#F5F5F7]"
+            className="flex h-10 w-10 items-center justify-center rounded-sm text-[#A1A1A6] transition-default focus-ring hover:bg-[#1A1A1F] hover:text-[#F5F5F7]"
             aria-label="Close">
             <span className="text-2xl leading-none">&times;</span>
           </button>
@@ -266,7 +266,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           {step < 5 && (
             <div className="mb-6 flex gap-2">
               {([1, 2, 3, 4] as const).map((s) => (
-                <span key={s} className={`h-1 flex-1 rounded-full transition-colors ${step >= s ? "bg-[#FFA400]" : "bg-[#2A2A2F]"}`} aria-hidden />
+                <span key={s} className={`h-1 flex-1 rounded-sm transition-colors ${step >= s ? "bg-[#D3AF37]" : "bg-[#2A2A2F]"}`} aria-hidden />
               ))}
             </div>
           )}
@@ -278,11 +278,11 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 {BARBERS.map((barber) => (
                   <li key={barber.id}>
                     <button type="button" onClick={() => setSelectedBarber(barber)}
-                      className={`flex w-full flex-col items-center rounded-[14px] border-2 p-4 text-center transition-default focus-ring ${
-                        selectedBarber?.id === barber.id ? "border-[#FFA400] bg-[#FFA400]/10" : "border-[#2A2A2F] hover:border-[#3A3A40]"
+                      className={`flex w-full flex-col items-center rounded-sm border-2 p-4 text-center transition-default focus-ring ${
+                        selectedBarber?.id === barber.id ? "border-[#F5F5F7] bg-[#1A1A1F]" : "border-[#2A2A2F] hover:border-[#3A3A40]"
                       }`}>
                       <span className="block font-semibold text-[#F5F5F7]">{barber.name}</span>
-                      <div className="relative my-3 h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-[#2A2A2F] bg-[#1A1A1F]">
+                      <div className="relative my-3 h-16 w-16 shrink-0 overflow-hidden rounded-sm border-2 border-[#2A2A2F] bg-[#1A1A1F]">
                         <Image src={barber.image} alt="" fill className="object-cover" sizes="64px" />
                       </div>
                       <span className="block text-sm text-[#A1A1A6]">{barber.role}</span>
@@ -301,8 +301,8 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 {weekDays.map((day) => (
                   <li key={day.id} className="min-w-0">
                     <button type="button" onClick={() => handleDaySelect(day)}
-                      className={`w-full min-w-0 rounded-lg border-2 px-2 py-3 text-center text-xs font-medium transition-default focus-ring sm:text-sm ${
-                        selectedDay?.id === day.id ? "border-[#FFA400] bg-[#FFA400] text-[#0A0A0B]" : "border-[#2A2A2F] text-[#F5F5F7] hover:border-[#3A3A40]"
+                      className={`w-full min-w-0 rounded-sm border-2 px-2 py-3 text-center text-xs font-medium transition-default focus-ring sm:text-sm ${
+                        selectedDay?.id === day.id ? "border-[#F5F5F7] bg-[#F5F5F7] text-[#0A0A0B]" : "border-[#2A2A2F] text-[#F5F5F7] hover:border-[#3A3A40]"
                       }`}>
                       <span className="block">{day.label}</span>
                       <span className="mt-1 block text-[10px] font-normal opacity-80 sm:text-xs">{formatDayDate(day.date)}</span>
@@ -323,9 +323,9 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                         <li key={time} className="min-w-0">
                           <button type="button" disabled={disabled} onClick={() => !disabled && setSelectedTime(time)}
                             title={disabled ? "This slot is already booked" : undefined}
-                            className={`flex min-h-[44px] w-full min-w-0 items-center justify-center rounded-lg border-2 py-2.5 text-sm font-medium transition-default focus-ring ${
+                            className={`flex min-h-[44px] w-full min-w-0 items-center justify-center rounded-sm border-2 py-2.5 text-sm font-medium transition-default focus-ring ${
                               disabled ? "cursor-not-allowed border-[#2A2A2F] bg-[#1A1A1F] text-[#6B6B70] line-through"
-                                : selectedTime === time ? "border-[#FFA400] bg-[#FFA400] text-[#0A0A0B]"
+                                : selectedTime === time ? "border-[#F5F5F7] bg-[#F5F5F7] text-[#0A0A0B]"
                                 : "border-[#2A2A2F] text-[#F5F5F7] hover:border-[#3A3A40]"
                             }`}>
                             {time}
@@ -344,15 +344,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
               <h3 className="mb-5 text-lg font-semibold text-[#F5F5F7]">Select service</h3>
               {servicesLoading && (
                 <div className="flex items-center justify-center py-8">
-                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#FFA400] border-t-transparent"></div>
+                  <div className="h-8 w-8 animate-spin rounded-sm border-4 border-[#F5F5F7] border-t-transparent"></div>
                   <span className="ml-3 text-sm text-[#A1A1A6]">Loading services...</span>
                 </div>
               )}
               {servicesError && (
-                <div className="rounded-[14px] bg-red-500/10 border border-red-500/30 p-4">
+                <div className="rounded-sm bg-red-500/10 border border-red-500/30 p-4">
                   <p className="text-sm text-red-400 mb-3">{servicesError}</p>
                   <button type="button" onClick={fetchServices}
-                    className="min-h-[44px] rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition-default hover:bg-red-600">
+                    className="min-h-[44px] rounded-sm bg-red-500 px-4 py-2 text-sm font-semibold text-white transition-default hover:bg-red-600">
                     Retry
                   </button>
                 </div>
@@ -365,14 +365,14 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   {services.map((service) => (
                     <li key={service.id}>
                       <button type="button" onClick={() => setSelectedService(service)}
-                        className={`flex w-full items-center justify-between rounded-[14px] border-2 p-4 text-left transition-default focus-ring ${
-                          selectedService?.id === service.id ? "border-[#FFA400] bg-[#FFA400]/10" : "border-[#2A2A2F] hover:border-[#3A3A40]"
+                        className={`flex w-full items-center justify-between rounded-sm border-2 p-4 text-left transition-default focus-ring ${
+                          selectedService?.id === service.id ? "border-[#F5F5F7] bg-[#1A1A1F]" : "border-[#2A2A2F] hover:border-[#3A3A40]"
                         }`}>
                         <span>
                           <span className="block font-medium text-[#F5F5F7]">{service.service_name}</span>
                           <span className="text-sm text-[#A1A1A6]">{service.duration_minutes} min</span>
                         </span>
-                        <span className="font-bold text-[#FFA400]">{service.price_rsd} RSD</span>
+                        <span className="font-bold text-[#F5F5F7]">{service.price_rsd} RSD</span>
                       </button>
                     </li>
                   ))}
@@ -384,42 +384,42 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           {step === 4 && (
             <div>
               <h3 className="mb-5 text-lg font-semibold text-[#F5F5F7]">Confirm booking</h3>
-              <div className="rounded-[14px] bg-[#1A1A1F] border border-[#2A2A2F] p-5">
+              <div className="rounded-sm bg-[#1A1A1F] border border-[#2A2A2F] p-5">
                 <p className="text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">Barber:</strong> {selectedBarber?.name}</p>
                 <p className="mt-2 text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">Day:</strong> {selectedDay ? `${selectedDay.label}, ${formatDayDate(selectedDay.date)}` : ""}</p>
                 <p className="mt-2 text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">Time:</strong> {selectedTime}</p>
                 <p className="mt-2 text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">Service:</strong> {selectedService?.service_name} — {selectedService?.price_rsd} RSD</p>
-                <p className="mt-4 text-xl font-bold text-[#FFA400]">Total: {selectedService?.price_rsd ?? 0} RSD</p>
+                <p className="mt-4 text-xl font-bold text-[#F5F5F7]">Total: {selectedService?.price_rsd ?? 0} RSD</p>
               </div>
               <h4 className="mt-6 mb-4 font-medium text-[#F5F5F7]">Your details</h4>
               <form className="grid gap-4 sm:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
                 <label className="sm:col-span-1">
                   <span className="mb-1.5 block text-sm font-medium text-[#A1A1A6]">Name</span>
                   <input type="text" value={contactForm.name} onChange={updateContact("name")} placeholder="Your first name"
-                    className="w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25"
+                    className="w-full min-h-[44px] rounded-sm border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-[#F5F5F7]/20"
                     autoComplete="given-name" />
                 </label>
                 <label className="sm:col-span-1">
                   <span className="mb-1.5 block text-sm font-medium text-[#A1A1A6]">Surname</span>
                   <input type="text" value={contactForm.surname} onChange={updateContact("surname")} placeholder="Your surname"
-                    className="w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25"
+                    className="w-full min-h-[44px] rounded-sm border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-[#F5F5F7]/20"
                     autoComplete="family-name" />
                 </label>
                 <label className="sm:col-span-2">
                   <span className="mb-1.5 block text-sm font-medium text-[#A1A1A6]">Mobile number</span>
                   <input type="tel" value={contactForm.mobile} onChange={updateContact("mobile")} placeholder="e.g. +381 60 123 4567"
-                    className="w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25"
+                    className="w-full min-h-[44px] rounded-sm border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-[#F5F5F7]/20"
                     autoComplete="tel" />
                 </label>
                 <label className="sm:col-span-2">
                   <span className="mb-1.5 block text-sm font-medium text-[#A1A1A6]">Email</span>
                   <input type="email" value={contactForm.email} onChange={updateContact("email")} placeholder="your@email.com"
-                    className="w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25"
+                    className="w-full min-h-[44px] rounded-sm border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-sm text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-[#F5F5F7]/20"
                     autoComplete="email" />
                 </label>
               </form>
               {bookingError && (
-                <div className="mt-4 rounded-[14px] bg-red-500/10 border border-red-500/30 p-4">
+                <div className="mt-4 rounded-sm bg-red-500/10 border border-red-500/30 p-4">
                   <p className="text-sm text-red-400">{bookingError}</p>
                 </div>
               )}
@@ -429,7 +429,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           {step === 5 && (
             <div className="text-center py-8">
               <div className="mb-6 flex justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
+                <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-green-500/20">
                   <svg className="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -437,7 +437,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
               </div>
               <h3 className="mb-3 text-2xl font-bold text-[#F5F5F7]">Booking Confirmed!</h3>
               <p className="mb-6 text-base text-[#A1A1A6]">Your reservation has been successfully created.</p>
-              <div className="mx-auto max-w-sm rounded-[14px] bg-[#1A1A1F] border border-[#2A2A2F] p-5 text-left">
+              <div className="mx-auto max-w-sm rounded-sm bg-[#1A1A1F] border border-[#2A2A2F] p-5 text-left">
                 <p className="text-xs text-[#6B6B70] mb-3"><strong>Reservation ID:</strong> {reservationId}</p>
                 <p className="text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">Barber:</strong> {selectedBarber?.name}</p>
                 <p className="mt-2 text-sm text-[#A1A1A6]"><strong className="text-[#F5F5F7]">When:</strong> {selectedDay ? `${selectedDay.label}, ${formatDayDate(selectedDay.date)} at ${selectedTime}` : ""}</p>
@@ -453,7 +453,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
         <div className="flex justify-between gap-3 border-t border-[#2A2A2F] px-6 py-5">
           {step > 1 && step < 5 ? (
             <button type="button" onClick={() => setStep((s) => (s - 1) as Step)} disabled={bookingLoading}
-              className="min-h-[48px] rounded-lg border-2 border-[#2A2A2F] px-6 py-3 text-sm font-semibold text-[#F5F5F7] transition-default focus-ring hover:border-[#3A3A40] hover:bg-[#1A1A1F]">
+              className="min-h-[48px] rounded-sm border-2 border-[#2A2A2F] px-6 py-3 text-sm font-semibold text-[#F5F5F7] transition-default focus-ring hover:border-[#3A3A40] hover:bg-[#1A1A1F]">
               Back
             </button>
           ) : <span />}
@@ -461,22 +461,22 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             <button type="button"
               onClick={() => { if ((step === 1 && selectedBarber) || (step === 2 && selectedDay && selectedTime) || (step === 3 && selectedService)) setStep((s) => (s + 1) as Step); }}
               disabled={(step === 1 && !selectedBarber) || (step === 2 && (!selectedDay || !selectedTime)) || (step === 3 && !selectedService)}
-              className="min-h-[48px] rounded-lg bg-[#FFA400] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] disabled:opacity-50 disabled:cursor-not-allowed">
+              className="min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] disabled:opacity-50 disabled:cursor-not-allowed">
               Next
             </button>
           ) : step === 4 ? (
             <button type="button" onClick={handleConfirmBooking} disabled={!isContactValid || bookingLoading}
-              className="min-h-[48px] rounded-lg bg-[#FFA400] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] disabled:opacity-50 disabled:cursor-not-allowed">
+              className="min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] disabled:opacity-50 disabled:cursor-not-allowed">
               {bookingLoading ? (
                 <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0A0A0B] border-t-transparent"></span>
+                  <span className="h-4 w-4 animate-spin rounded-sm border-2 border-[#0A0A0B] border-t-transparent"></span>
                   Booking...
                 </span>
               ) : "Confirm Booking"}
             </button>
           ) : (
             <button type="button" onClick={resetAndClose}
-              className="min-h-[48px] rounded-lg bg-[#FFA400] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833]">
+              className="min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A]">
               Close
             </button>
           )}

@@ -61,7 +61,7 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <Link
           href={isAdmin ? "/" : "#home"}
-          className="text-xl font-bold tracking-tight text-[#F5F5F7] focus-ring rounded transition-default hover:text-[#FFA400]"
+          className="text-xl font-bold tracking-tight text-[#F5F5F7] focus-ring rounded transition-default hover:opacity-70"
           onClick={() => setActiveLink("Home")}
         >
           Sharp Cut
@@ -75,10 +75,10 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
             <Link
               key={href}
               href={label === "Home" && isAdmin ? "/" : href}
-              className={`rounded-lg px-4 py-2.5 text-sm font-medium tracking-wide transition-default focus-ring ${
+              className={`relative px-4 py-2.5 text-sm font-medium tracking-wide transition-default focus-ring ${
                 activeLink === label || (label === "Admin" && isAdmin)
-                  ? "bg-[#FFA400] text-[#0A0A0B]"
-                  : "text-[#A1A1A6] hover:text-[#F5F5F7] hover:bg-[#1A1A1F]"
+                  ? "text-[#F5F5F7] after:absolute after:bottom-0 after:left-4 after:right-4 after:h-[2px] after:bg-[#F5F5F7]"
+                  : "text-[#6B6B70] hover:text-[#F5F5F7]"
               }`}
               onClick={() => setActiveLink(label)}
             >
@@ -91,7 +91,7 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
           <button
             type="button"
             onClick={onBookClick}
-            className="hidden md:block min-h-[44px] rounded-lg bg-[#FFA400] px-6 py-2.5 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] active:scale-[0.98]"
+            className="hidden md:block min-h-[44px] rounded-sm bg-[#D3AF37] px-6 py-2.5 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] active:scale-[0.98]"
           >
             Book Now
           </button>
@@ -99,7 +99,7 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-lg text-[#F5F5F7] focus-ring md:hidden hover:bg-[#1A1A1F]"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-sm text-[#F5F5F7] focus-ring md:hidden hover:bg-[#1A1A1F]"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Toggle menu"
@@ -126,10 +126,10 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
             <Link
               key={href}
               href={label === "Home" && isAdmin ? "/" : href}
-              className={`rounded-lg px-4 py-3 text-base font-medium focus-ring transition-default ${
+              className={`px-4 py-3 text-base font-medium focus-ring transition-default border-l-2 ${
                 activeLink === label
-                  ? "bg-[#1A1A1F] text-[#FFA400]"
-                  : "text-[#A1A1A6] hover:bg-[#1A1A1F] hover:text-[#F5F5F7]"
+                  ? "border-[#F5F5F7] bg-[#1A1A1F] text-[#F5F5F7]"
+                  : "border-transparent text-[#6B6B70] hover:text-[#F5F5F7] hover:bg-[#1A1A1F]/50"
               }`}
               onClick={() => {
                 setMobileMenuOpen(false);
@@ -145,7 +145,7 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
               setMobileMenuOpen(false);
               onBookClick();
             }}
-            className="mx-4 mt-3 min-h-[48px] rounded-lg bg-[#FFA400] px-6 py-3.5 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833]"
+            className="mx-4 mt-3 min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3.5 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A]"
           >
             Book Now
           </button>

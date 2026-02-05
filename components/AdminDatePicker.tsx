@@ -74,12 +74,12 @@ export function AdminDatePicker({ value, onChange, datesWithReservations = new S
           return (
             <button key={day} type="button" onClick={() => handleDayClick(day)}
               className={`relative flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all focus-ring
-                ${selectedClass ? "bg-[#FFA400] text-[#0A0A0B] shadow-sm"
-                  : todayClass ? "border border-[#FFA400] text-[#FFA400] hover:bg-[#FFA400]/10"
+                ${selectedClass ? "bg-[#D3AF37] text-[#0A0A0B] shadow-sm"
+                  : todayClass ? "border border-[#D3AF37] text-[#D3AF37] hover:bg-[#D3AF37]/10"
                   : "text-[#F5F5F7] hover:bg-[#1A1A1F]"}`}>
               {day}
               {hasReservations && !selectedClass && (
-                <span className={`absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full ${todayClass ? "bg-[#FFA400]" : "bg-[#6B6B70]"}`} />
+                <span className={`absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full ${todayClass ? "bg-[#D3AF37]" : "bg-[#6B6B70]"}`} />
               )}
             </button>
           );

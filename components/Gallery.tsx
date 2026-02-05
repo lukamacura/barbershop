@@ -40,14 +40,14 @@ export function Gallery() {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#2A2A2F] text-[#A1A1A6] transition-default focus-ring hover:bg-[#FFA400] hover:border-[#FFA400] hover:text-[#0A0A0B]"
+                  className="flex h-11 w-11 items-center justify-center rounded-sm border border-[#3A3A40] text-[#A1A1A6] transition-default focus-ring hover:bg-[#F5F5F7] hover:border-[#F5F5F7] hover:text-[#0A0A0B]"
                   aria-label="Previous image"
                 >
                   ←
                 </button>
                 <button
                   type="button"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#2A2A2F] text-[#A1A1A6] transition-default focus-ring hover:bg-[#FFA400] hover:border-[#FFA400] hover:text-[#0A0A0B]"
+                  className="flex h-11 w-11 items-center justify-center rounded-sm border border-[#3A3A40] text-[#A1A1A6] transition-default focus-ring hover:bg-[#F5F5F7] hover:border-[#F5F5F7] hover:text-[#0A0A0B]"
                   aria-label="Next image"
                 >
                   →
@@ -61,7 +61,7 @@ export function Gallery() {
             {galleryImages.map(({ src, alt }) => (
               <div
                 key={src}
-                className="relative aspect-[3/4] overflow-hidden rounded-[14px] border border-[#2A2A2F]"
+                className="relative aspect-[3/4] overflow-hidden rounded-sm border border-[#2A2A2F]"
               >
                 <Image
                   src={src}

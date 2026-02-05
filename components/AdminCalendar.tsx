@@ -114,7 +114,7 @@ export function AdminCalendar({ barbers, services, reservations, dateStr, barber
             <div className="rounded-[14px] border border-[#2A2A2F] bg-[#141417] p-5">
               <label className="mb-3 block text-xs font-medium uppercase tracking-wider text-[#A1A1A6]">Filter by barber</label>
               <select value={barberFilter} onChange={(e) => updateParams({ barber: e.target.value })}
-                className="admin-select w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[#F5F5F7] transition-colors focus:border-[#FFA400] focus:outline-none focus:ring-2 focus:ring-[#FFA400]/25">
+                className="admin-select w-full min-h-[44px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[#F5F5F7] transition-colors focus:border-[#D3AF37] focus:outline-none focus:ring-2 focus:ring-[#D3AF37]/25">
                 <option value="all">All barbers</option>
                 {barbers.map((b) => (<option key={b.id} value={String(b.id)}>{b.name}</option>))}
               </select>
@@ -149,7 +149,7 @@ export function AdminCalendar({ barbers, services, reservations, dateStr, barber
           <div className="admin-schedule-card overflow-hidden rounded-[20px] border border-[#2A2A2F] bg-[#141417] shadow-lg">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#2A2A2F] bg-[#1A1A1F] px-6 py-5">
               <h2 className="text-xl font-bold tracking-tight text-[#F5F5F7]">Schedule — {dayLabel}</h2>
-              <span className="rounded-full bg-[#FFA400] px-4 py-1.5 text-xs font-semibold text-[#0A0A0B]">
+              <span className="rounded-full bg-[#D3AF37] px-4 py-1.5 text-xs font-semibold text-[#0A0A0B]">
                 {reservations.length} appointment{reservations.length !== 1 ? "s" : ""}
               </span>
             </div>
@@ -189,7 +189,7 @@ export function AdminCalendar({ barbers, services, reservations, dateStr, barber
                           const svc = serviceMap[r.service_id];
                           return (
                             <button key={r.id} type="button" onClick={() => setSelectedReservation({ r, service: svc, barber })}
-                              className="admin-reservation-block absolute left-1.5 right-1.5 rounded-lg border border-[#FFA400]/40 bg-[#FFA400]/15 px-3 py-2 text-left text-xs transition-all hover:border-[#FFA400]/70 hover:bg-[#FFA400]/25 focus-ring"
+                              className="admin-reservation-block absolute left-1.5 right-1.5 rounded-lg border border-[#D3AF37]/40 bg-[#D3AF37]/15 px-3 py-2 text-left text-xs transition-all hover:border-[#D3AF37]/70 hover:bg-[#D3AF37]/25 focus-ring"
                               style={getBlockStyle(r)}>
                               <span className="block truncate font-semibold text-[#F5F5F7]">{r.customer_name || r.customer_phone || "—"}</span>
                               <span className="block truncate text-[#A1A1A6]">{svc?.service_name ?? "Service"}</span>

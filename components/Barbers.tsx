@@ -72,7 +72,7 @@ export function Barbers() {
               className="barber-card barber-flip-card group h-[400px] opacity-0 [perspective:1000px]"
             >
               <div
-                className={`barber-flip-inner focus-ring relative h-full w-full cursor-pointer rounded-[14px] transition-transform duration-500 outline-none [transform-style:preserve-3d] ${flippedId === id ? "[transform:rotateY(180deg)]" : ""}`}
+                className={`barber-flip-inner focus-ring relative h-full w-full cursor-pointer rounded-sm transition-transform duration-500 outline-none [transform-style:preserve-3d] ${flippedId === id ? "[transform:rotateY(180deg)]" : ""}`}
                 onClick={() => setFlippedId(flippedId === id ? null : id)}
                 role="button"
                 tabIndex={0}
@@ -85,7 +85,7 @@ export function Barbers() {
                 aria-label={`${flippedId === id ? "Show" : "View"} ${name} bio`}
               >
                 {/* Front */}
-                <div className="barber-flip-front absolute inset-0 overflow-hidden rounded-[14px] bg-[#141417] border border-[#2A2A2F] transition-all hover:border-[#3A3A40] [backface-visibility:hidden]">
+                <div className="barber-flip-front absolute inset-0 overflow-hidden rounded-sm bg-[#141417] border border-[#2A2A2F] transition-all hover:border-[#3A3A40] [backface-visibility:hidden]">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <Image
                       src={image}
@@ -100,22 +100,22 @@ export function Barbers() {
                     <p className="text-lg font-semibold tracking-tight text-[#F5F5F7]">
                       {name}
                     </p>
-                    <p className="text-sm text-[#FFA400]">
+                    <p className="text-sm text-[#A1A1A6] uppercase tracking-wide">
                       {role}
                     </p>
                   </div>
                 </div>
 
                 {/* Back – bio */}
-                <div className="barber-flip-back absolute inset-0 overflow-hidden rounded-[14px] bg-[#141417] border border-[#2A2A2F] [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                <div className="barber-flip-back absolute inset-0 overflow-hidden rounded-sm bg-[#141417] border border-[#2A2A2F] [transform:rotateY(180deg)] [backface-visibility:hidden]">
                   <div className="flex h-full flex-col justify-center p-8">
                     <h3 className="mb-2 text-xl font-bold tracking-tight text-[#F5F5F7]">
                       {name}
                     </h3>
-                    <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#FFA400]">
+                    <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#A1A1A6]">
                       {role}
                     </p>
-                    <p className="text-base leading-relaxed text-[#A1A1A6]">
+                    <p className="text-base leading-relaxed text-[#6B6B70]">
                       {bio}
                     </p>
                   </div>

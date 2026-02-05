@@ -43,7 +43,7 @@ export function Prices({ onBookClick }: { onBookClick?: () => void }) {
           </p>
         </div>
         
-        <div className="overflow-hidden rounded-[14px] border border-[#2A2A2F] bg-[#0A0A0B]">
+        <div className="overflow-hidden rounded-sm border border-[#2A2A2F] bg-[#0A0A0B]">
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-[#2A2A2F]">
@@ -67,7 +67,7 @@ export function Prices({ onBookClick }: { onBookClick?: () => void }) {
                   <tr>
                     <td
                       colSpan={2}
-                      className="bg-[#1A1A1F] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#FFA400]"
+                      className="bg-[#1A1A1F] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#F5F5F7]"
                     >
                       {title}
                     </td>
@@ -77,8 +77,8 @@ export function Prices({ onBookClick }: { onBookClick?: () => void }) {
                       key={name}
                       className="border-b border-[#2A2A2F] transition-default hover:bg-[#1A1A1F] last:border-b-0"
                     >
-                      <td className="px-6 py-4 text-base text-[#F5F5F7]">{name}</td>
-                      <td className="px-6 py-4 text-right font-semibold text-[#FFA400]">
+                      <td className="px-6 py-4 text-base text-[#A1A1A6]">{name}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-[#F5F5F7]">
                         {price}
                       </td>
                     </tr>
@@ -96,7 +96,7 @@ export function Prices({ onBookClick }: { onBookClick?: () => void }) {
           <button
             type="button"
             onClick={onBookClick}
-            className="shrink-0 min-h-[48px] rounded-lg bg-[#FFA400] px-8 py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] active:scale-[0.99]"
+            className="shrink-0 min-h-[48px] rounded-sm bg-[#D3AF37] px-8 py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] active:scale-[0.99]"
           >
             Book appointment
           </button>

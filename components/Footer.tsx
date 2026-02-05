@@ -34,12 +34,12 @@ export function Footer({ onBookClick }: { onBookClick: () => void }) {
               21000 Novi Sad
             </p>
             <p className="mt-3 text-base">
-              <a href="tel:+381123456789" className="text-[#A1A1A6] hover:text-[#FFA400] transition-colors focus-ring rounded">
+              <a href="tel:+381123456789" className="text-[#A1A1A6] hover:text-[#F5F5F7] transition-colors focus-ring rounded">
                 +381 12 345 6789
               </a>
             </p>
             <p className="mt-1 text-base">
-              <a href="mailto:hello@example.com" className="text-[#A1A1A6] hover:text-[#FFA400] transition-colors focus-ring rounded">
+              <a href="mailto:hello@example.com" className="text-[#A1A1A6] hover:text-[#F5F5F7] transition-colors focus-ring rounded">
                 hello@example.com
               </a>
             </p>
@@ -48,7 +48,7 @@ export function Footer({ onBookClick }: { onBookClick: () => void }) {
                 <a
                   key={name}
                   href="#"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#1A1A1F] border border-[#2A2A2F] text-[#A1A1A6] transition-all focus-ring hover:bg-[#FFA400] hover:text-[#0A0A0B] hover:border-[#FFA400]"
+                  className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#1A1A1F] border border-[#2A2A2F] text-[#A1A1A6] transition-all focus-ring hover:bg-[#F5F5F7] hover:text-[#0A0A0B] hover:border-[#F5F5F7]"
                   aria-label={name}
                 >
                   <span className="text-sm font-medium">{name[0]}</span>
@@ -67,7 +67,7 @@ export function Footer({ onBookClick }: { onBookClick: () => void }) {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-base text-[#A1A1A6] hover:text-[#FFA400] transition-colors focus-ring rounded"
+                    className="text-base text-[#6B6B70] hover:text-[#F5F5F7] transition-colors focus-ring rounded"
                   >
                     {label}
                   </Link>
@@ -86,7 +86,7 @@ export function Footer({ onBookClick }: { onBookClick: () => void }) {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="text-base text-[#A1A1A6] hover:text-[#FFA400] transition-colors focus-ring rounded"
+                    className="text-base text-[#6B6B70] hover:text-[#F5F5F7] transition-colors focus-ring rounded"
                   >
                     {label}
                   </Link>
@@ -107,7 +107,7 @@ export function Footer({ onBookClick }: { onBookClick: () => void }) {
             <button
               type="button"
               onClick={onBookClick}
-              className="mt-8 w-full min-h-[48px] rounded-lg bg-[#FFA400] py-3.5 px-6 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#FFB833] sm:w-auto"
+              className="mt-8 w-full min-h-[48px] rounded-sm bg-[#D3AF37] py-3.5 px-6 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] sm:w-auto"
             >
               Book appointment
             </button>
