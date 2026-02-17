@@ -94,8 +94,8 @@ export default async function AdminPage(props: {
 
   return (
     <AdminShell>
-      <main id="main-content" className="min-h-screen bg-[#0A0A0B] pt-2">
-        <Suspense fallback={<div className="mx-auto max-w-7xl px-4 py-8 text-center text-[#A1A1A6]">Loading...</div>}>
+      <main id="main-content" className="min-h-screen bg-[#1a1a1a] pt-2">
+        <Suspense fallback={<div className="mx-auto max-w-7xl px-4 py-8 text-center text-white/60">Loading...</div>}>
           <AdminCalendar
             barbers={barbers}
             services={services}

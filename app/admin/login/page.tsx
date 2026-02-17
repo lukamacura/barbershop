@@ -35,21 +35,21 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0A0A0B] px-4">
-      <div className="w-full max-w-sm rounded-[20px] border border-[#2A2A2F] bg-[#141417] p-8 shadow-2xl">
-        <h1 className="mb-8 text-center text-2xl font-bold text-[#F5F5F7]">
-          Admin prijava
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#1a1a1a] px-4">
+      <div className="w-full max-w-sm border border-white/10 bg-[#222] p-8 shadow-2xl">
+        <h1 className="mb-8 text-center font-heading text-3xl text-white">
+          ADMIN PRIJAVA
         </h1>
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-[#A1A1A6]">
+            <span className="mb-2 block text-sm font-medium text-white/70">
               Lozinka
             </span>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full min-h-[48px] rounded-lg border border-[#2A2A2F] bg-[#0A0A0B] px-4 py-3 text-[#F5F5F7] placeholder:text-[#6B6B70] transition-default focus:border-[#D3AF37] focus:outline-none focus:ring-2 focus:ring-[#D3AF37]/25"
+              className="w-full min-h-[48px] border border-white/20 bg-[#1a1a1a] px-4 py-3 text-white placeholder:text-white/40 transition-all focus:border-white focus:outline-none"
               placeholder="Unesite lozinku"
               autoFocus
             />
@@ -60,17 +60,17 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading || !password}
-            className="w-full min-h-[48px] rounded-lg bg-[#D3AF37] py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full min-h-[48px] bg-white py-3 text-sm font-medium tracking-wider text-[#1a1a1a] transition-all hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Prijavljivanje..." : "Prijavi se"}
+            {loading ? "PRIJAVLJIVANJE..." : "PRIJAVI SE"}
           </button>
         </form>
         <p className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-[#009FFD] hover:text-[#33B3FF] transition-colors"
+            className="text-sm text-white/60 hover:text-white transition-colors"
           >
-            ← Nazad na sajt
+            &larr; Nazad na sajt
           </Link>
         </p>
       </div>

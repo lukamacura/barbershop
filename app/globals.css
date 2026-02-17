@@ -1,144 +1,170 @@
 @import "tailwindcss";
 
 :root {
-  /* Dark Theme Color Palette */
-  --primary: #403D58;        /* Vintage Indigo - surfaces, cards */
-  --accent: #D3AF37;         /* Gold - CTAs, highlights */
-  --info: #009FFD;           /* Sky Blue - links, secondary actions */
-  --bg-dark: #0A0A0B;        /* Near black - main background */
-  --bg-card: #141417;        /* Slightly lighter - card backgrounds */
-  --bg-elevated: #1A1A1F;    /* Elevated surfaces */
-  --bg-hover: #222228;       /* Hover states */
-  --text-primary: #F5F5F7;   /* Primary text - almost white */
-  --text-secondary: #A1A1A6; /* Secondary text - muted */
-  --text-muted: #6B6B70;     /* Muted text - captions */
-  --border: #2A2A2F;         /* Subtle borders */
-  --border-light: #3A3A40;   /* Lighter borders for emphasis */
+  /* Exact colors from PNG design */
+  --color-offwhite: #f7f7f7;
+  --color-white: #ffffff;
+  --color-black: #1a1a1a;
+  --color-pure-black: #000000;
+  --color-gray: #666666;
+  --color-gray-light: #888888;
+  --color-border: #cccccc;
+  --color-border-light: #e5e5e5;
   
-  /* Design tokens - Sharp aesthetic */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
-  --radius-xl: 4px;
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* Typography */
+  --font-heading: "Helvetica Neue Condensed Bold", "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+  --font-body: var(--font-montserrat), "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--bg-dark);
-  --color-foreground: var(--text-primary);
-  --color-primary: var(--primary);
-  --color-accent: var(--accent);
-  --color-info: var(--info);
-  --font-sans: var(--font-body), system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-display), Georgia, serif;
+  --color-background: var(--color-offwhite);
+  --color-foreground: var(--color-black);
+  --font-body: var(--font-montserrat), "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
-  background: var(--bg-dark);
-  color: var(--text-primary);
-  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  background: var(--color-offwhite);
+  color: var(--color-black);
+  font-family: var(--font-body);
   line-height: 1.6;
-  font-size: 16px;
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
-/* Modern sans-serif typography for all headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+/* Heading font - Helvetica Neue Condensed Bold (tight letter-spacing like USLUGE) */
+.font-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.01em; /* ~30% tighter than 0.02em for condensed look */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Display font for accent text */
-.font-display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+/* Body font */
+.font-body {
+  font-family: var(--font-body);
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.5rem; }
-
-/* Focus ring utility */
+/* Focus styles */
 .focus-ring:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--color-black);
   outline-offset: 2px;
 }
 
 /* Transition utility */
 .transition-default {
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
-/* Modal animations */
-.modal-overlay-enter {
-  opacity: 0;
-  transition: opacity 0.25s ease-out;
-}
-.modal-overlay-enter.modal-overlay-visible {
-  opacity: 1;
-}
-.modal-content-enter {
-  opacity: 0;
-  transform: scale(0.96) translateY(8px);
-  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
-}
-.modal-content-enter.modal-content-visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+/* Button styles - exactly as PNG */
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-/* Scroll reveal animations */
-@keyframes fade-in-up {
+.btn-outline-white:hover {
+  background: #ffffff;
+  color: var(--color-black);
+}
+
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-black);
+  background: transparent;
+  color: var(--color-black);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-outline-dark:hover {
+  background: var(--color-black);
+  color: #ffffff;
+}
+
+/* Scroll reveal */
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 .scroll-reveal {
   opacity: 0;
 }
+
 .scroll-reveal.scroll-reveal-visible {
-  animation: fade-in-up 0.4s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* Barber cards animation */
-@keyframes barber-card-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* Modal styles */
+.modal-overlay-enter {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
 }
-.barbers-in-view .barber-card {
-  animation: barber-card-in 0.5s ease-out forwards;
+.modal-overlay-enter.modal-overlay-visible {
+  opacity: 1;
 }
-.barbers-in-view .barber-card:nth-child(1) { animation-delay: 0.05s; }
-.barbers-in-view .barber-card:nth-child(2) { animation-delay: 0.15s; }
-.barbers-in-view .barber-card:nth-child(3) { animation-delay: 0.25s; }
-
-.barber-flip-inner {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+.modal-content-enter {
+  opacity: 0;
+  transform: scale(0.97) translateY(12px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-content-enter.modal-content-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
-/* Admin styles */
+/* Dotted leader for price list - exact match */
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--color-gray);
+  margin-bottom: 4px;
+}
+
+/* Admin styles (keep existing) */
 .admin-dashboard .admin-btn-secondary:focus-visible,
 .admin-dashboard .admin-select:focus,
 .admin-date-picker button:focus-visible,
 .admin-reservation-block:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
@@ -151,23 +177,23 @@ h3 { font-size: 1.5rem; }
 }
 
 .admin-empty-state {
-  animation: admin-fade-in 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .admin-modal-overlay {
-  animation: admin-fade-in 0.2s ease-out;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .admin-modal-content {
-  animation: admin-modal-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes admin-fade-in {
+@keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes admin-modal-in {
+@keyframes modalIn {
   from {
     opacity: 0;
     transform: scale(0.96) translateY(8px);
@@ -178,28 +204,24 @@ h3 { font-size: 1.5rem; }
   }
 }
 
-.admin-alert {
-  animation: admin-fade-in 0.3s ease-out;
-}
-
-/* Selection styling */
+/* Selection */
 ::selection {
-  background: var(--accent);
-  color: var(--bg-dark);
+  background: var(--color-black);
+  color: #ffffff;
 }
 
-/* Scrollbar styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-card);
+  background: var(--color-offwhite);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 2px;
+  background: var(--color-gray-light);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: var(--color-gray);
 }

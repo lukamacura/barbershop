@@ -3,34 +3,30 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const barbers = [
-  {
-    id: "barber-1",
-    name: "Ratko",
-    role: "Majstor Berber",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
-    bio: "Ratko donosi preko 12 godina iskustva. Specijalizovan za klasične rezove i moderne fade-ove, veruje da savršena šišanje počinje razumevanjem onoga što svaki klijent želi.",
-  },
-  {
-    id: "barber-2",
-    name: "Stefan",
-    role: "Viši Berber",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop",
-    bio: "Stefan već 8 godina oblikuje stil. Njegova strast je precizna šišanja makazama i oblikovanje brade. Obučen je za tradicionalne i savremene tehnike.",
-  },
-  {
-    id: "barber-3",
-    name: "Nikola",
-    role: "Berber",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop",
-    bio: "Nikola je naš najnoviji talenat sa svežim pristupom. Izvrsno se snalazi sa teksturiranim rezovima i kreativnim stilizovanjem. Uvek uči i prati najnovije trendove i tehnike.",
-  },
-];
+// Scissors icon for divider
+function ScissorsIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg 
+      className={className} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="1.5"
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <line x1="20" y1="4" x2="8.12" y2="15.88" />
+      <line x1="14.47" y1="14.48" x2="20" y2="20" />
+      <line x1="8.12" y1="8.12" x2="12" y2="12" />
+    </svg>
+  );
+}
 
 export function Barbers() {
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
-  const [flippedId, setFlippedId] = useState<string | null>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -39,7 +35,7 @@ export function Barbers() {
       ([entry]) => {
         if (entry.isIntersecting) setInView(true);
       },
-      { threshold: 0.12, rootMargin: "0px 0px -24px 0px" }
+      { threshold: 0.15 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -48,81 +44,63 @@ export function Barbers() {
   return (
     <section
       ref={sectionRef}
-      id="about"
-      className={`bg-[#0A0A0B] px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32 ${inView ? "barbers-in-view" : ""}`}
-      aria-labelledby="barbers-heading"
+      id="tim"
+      className="bg-[#1a1a1a] py-20 md:py-28 lg:py-32"
+      aria-labelledby="team-heading"
     >
-      <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-14 lg:mb-20">
-          <h2
-            id="barbers-heading"
-            className="mb-4 text-3xl font-bold tracking-tight text-[#F5F5F7] sm:text-4xl lg:text-5xl"
+      <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+          
+          {/* Left - Image with arch top (rounded-t-full) */}
+          <div 
+            className={`transition-all duration-700 ${
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           >
-            Upoznajte naše berbere
-          </h2>
-          <p className="mx-auto max-w-xl text-base leading-relaxed text-[#A1A1A6] sm:text-lg">
-            Tri iskusna brijača koji vode računa o detaljima i Vašoj udobnosti. Kliknite na sliku da pročitate njihovu biografiju.
-          </p>
-        </div>
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {barbers.map(({ id, name, role, image, bio }) => (
-            <li
-              key={id}
-              className="barber-card barber-flip-card group h-[400px] opacity-0 [perspective:1000px]"
+            <div className="relative aspect-[3/4] overflow-hidden rounded-t-[50%] mx-auto max-w-[380px] lg:max-w-none">
+              <Image
+                src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=800&fit=crop"
+                alt="Profesionalni berber na poslu"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            </div>
+          </div>
+          
+          {/* Right - Text content */}
+          <div 
+            className={`text-center lg:text-left transition-all duration-700 delay-150 ${
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            {/* Scissors divider */}
+            <div className="flex items-center justify-center lg:justify-start gap-3 mb-5">
+              <span className="h-[1px] w-10 bg-white/60" />
+              <ScissorsIcon className="h-4 w-4 text-white/60" />
+              <span className="h-[1px] w-10 bg-white/60" />
+            </div>
+            
+            {/* Heading */}
+            <h2
+              id="team-heading"
+              className="font-heading text-[42px] text-white md:text-[48px]"
             >
-              <div
-                className={`barber-flip-inner focus-ring relative h-full w-full cursor-pointer rounded-sm transition-transform duration-500 outline-none [transform-style:preserve-3d] ${flippedId === id ? "[transform:rotateY(180deg)]" : ""}`}
-                onClick={() => setFlippedId(flippedId === id ? null : id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setFlippedId(flippedId === id ? null : id);
-                  }
-                }}
-                aria-label={`${flippedId === id ? "Prikaži" : "Pogledaj"} ${name} biografiju`}
-              >
-                {/* Front */}
-                <div className="barber-flip-front absolute inset-0 overflow-hidden rounded-sm bg-[#141417] border border-[#2A2A2F] transition-all hover:border-[#3A3A40] [backface-visibility:hidden]">
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={`${name}, ${role}`}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#141417] via-transparent to-transparent" />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <p className="text-lg font-semibold tracking-tight text-[#F5F5F7]">
-                      {name}
-                    </p>
-                    <p className="text-sm text-[#A1A1A6] uppercase tracking-wide">
-                      {role}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Back – bio */}
-                <div className="barber-flip-back absolute inset-0 overflow-hidden rounded-sm bg-[#141417] border border-[#2A2A2F] [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                  <div className="flex h-full flex-col justify-center p-8">
-                    <h3 className="mb-2 text-xl font-bold tracking-tight text-[#F5F5F7]">
-                      {name}
-                    </h3>
-                    <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#A1A1A6]">
-                      {role}
-                    </p>
-                    <p className="text-base leading-relaxed text-[#6B6B70]">
-                      {bio}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              NAŠ TIM
+            </h2>
+            
+            {/* Subheading - italic style */}
+            <p className="mt-5 text-[16px] font-medium italic text-white/90 md:text-[18px]">
+              Mladi tim, sveža energija i preciznost u svakom potezu.
+            </p>
+            
+            {/* Body text */}
+            <p className="mt-4 text-[14px] leading-[1.8] text-white/70 md:text-[15px]">
+              Kombinujemo znanje, ambiciju i savremene trendove, stvarajući balans tradicije i modernog stila. Svakom klijentu pristupamo individualno, sa fokusom na detalje, stil i vrhunski rezultat.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

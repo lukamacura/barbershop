@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Barbers } from "@/components/Barbers";
+import { Services } from "@/components/Services";
 import { Prices } from "@/components/Prices";
-import { Location } from "@/components/Location";
 import { Gallery } from "@/components/Gallery";
+import { Location } from "@/components/Location";
 import { Footer } from "@/components/Footer";
 import { BookingModal } from "@/components/BookingModal";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -16,7 +17,6 @@ export default function Home() {
 
   return (
     <>
-
       <Header onBookClick={() => setBookingOpen(true)} />
       <main id="main-content">
         <Hero onBookClick={() => setBookingOpen(true)} />
@@ -24,13 +24,16 @@ export default function Home() {
           <Barbers />
         </ScrollReveal>
         <ScrollReveal>
+          <Services onBookClick={() => setBookingOpen(true)} />
+        </ScrollReveal>
+        <ScrollReveal>
           <Prices onBookClick={() => setBookingOpen(true)} />
         </ScrollReveal>
         <ScrollReveal>
-          <Location />
+          <Gallery />
         </ScrollReveal>
         <ScrollReveal>
-          <Gallery />
+          <Location />
         </ScrollReveal>
         <Footer onBookClick={() => setBookingOpen(true)} />
       </main>

@@ -1,105 +1,84 @@
-import { Fragment } from "react";
+"use client";
 
-const sisanjePrices = [
-  { name: "Šišanje Mašinica", price: "1100din" },
-  { name: "Šišanje Mašinica + Makaze", price: "1200din" },
-  { name: "Šišanje Nula", price: "500din" },
-];
+import { useEffect, useRef, useState } from "react";
 
-const brijanjePrices = [{ name: "Shaver", price: "200din" }];
-
-const bradaPrices = [
-  { name: "Brada Kratka", price: "400din" },
-  { name: "Brada Duga", price: "500din" },
-  { name: "Brada Nula", price: "200din" },
-];
-
-const ostaloPrices = [{ name: "Pranje Kose", price: "250din" }];
-
-const priceCategories: { title: string; items: { name: string; price: string }[] }[] = [
-  { title: "Šišanje", items: sisanjePrices },
-  { title: "Brijanje", items: brijanjePrices },
-  { title: "Brada", items: bradaPrices },
-  { title: "Ostalo", items: ostaloPrices },
+const prices = [
+  { name: "ŠIŠANJE FADE", duration: "30 min.", price: "1.400" },
+  { name: "KLASIČNO ŠIŠANJE", duration: "20 min.", price: "1.200" },
+  { name: "BRADA", duration: null, price: "700" },
+  { name: "ŠIŠANJE + BRADA", duration: null, price: "1.700" },
+  { name: "BRIJANJE GLAVE", duration: null, price: "1.400" },
+  { name: "KLASIČNO BRIJANJE", duration: null, price: "1.200" },
+  { name: "PRANJE KOSE", duration: null, price: "700" },
 ];
 
 export function Prices({ onBookClick }: { onBookClick?: () => void }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
-      id="prices"
-      className="relative bg-[#141417] px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32"
+      ref={sectionRef}
+      id="cenovnik"
+      className="bg-[#f7f7f7] py-20 md:py-28 lg:py-32"
       aria-labelledby="prices-heading"
     >
-      <div className="mx-auto max-w-4xl">
-        <div className="text-center mb-14 lg:mb-20">
+      <div className="mx-auto max-w-xl px-5 md:px-8">
+        {/* Heading - centered */}
+        <div 
+          className={`text-center mb-10 md:mb-12 transition-all duration-700 ${
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <h2
             id="prices-heading"
-            className="mb-4 text-3xl font-bold tracking-tight text-[#F5F5F7] sm:text-4xl lg:text-5xl"
+            className="font-heading text-[42px] text-[#1a1a1a] md:text-[48px]"
           >
-            Naše cene
+            CENOVNIK
           </h2>
-          <p className="mx-auto max-w-xl text-base leading-relaxed text-[#A1A1A6] sm:text-lg">
-            Transparentne cene za sve naše usluge. Vrhunski rezovi po poštenim cenama.
-          </p>
         </div>
         
-        <div className="overflow-hidden rounded-sm border border-[#2A2A2F] bg-[#0A0A0B]">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="border-b border-[#2A2A2F]">
-                <th
-                  scope="col"
-                  className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-[#A1A1A6]"
-                >
-                  Usluga
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-[#A1A1A6]"
-                >
-                  Cena
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {priceCategories.map(({ title, items }) => (
-                <Fragment key={title}>
-                  <tr>
-                    <td
-                      colSpan={2}
-                      className="bg-[#1A1A1F] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#F5F5F7]"
-                    >
-                      {title}
-                    </td>
-                  </tr>
-                  {items.map(({ name, price }) => (
-                    <tr
-                      key={name}
-                      className="border-b border-[#2A2A2F] transition-default hover:bg-[#1A1A1F] last:border-b-0"
-                    >
-                      <td className="px-6 py-4 text-base text-[#A1A1A6]">{name}</td>
-                      <td className="px-6 py-4 text-right font-semibold text-[#F5F5F7]">
-                        {price}
-                      </td>
-                    </tr>
-                  ))}
-                </Fragment>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        <div className="mt-12 flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-center">
-          <p className="text-base text-[#A1A1A6]">
-            Spremni za savršen izgled koji ostavlja utisak? Zakažite svoj termin.
-          </p>
-          <button
-            type="button"
-            onClick={onBookClick}
-            className="shrink-0 min-h-[48px] rounded-sm bg-[#D3AF37] px-8 py-3 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] active:scale-[0.99]"
-          >
-            Zakažite termin
-          </button>
+        {/* Price list with dotted leaders */}
+        <div 
+          className={`space-y-3 transition-all duration-700 delay-150 ${
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          {prices.map((item) => (
+            <div 
+              key={item.name} 
+              className="price-row"
+            >
+              {/* Service name with optional duration */}
+              <span className="text-[13px] text-[#1a1a1a] whitespace-nowrap md:text-[14px]">
+                {item.name}
+                {item.duration && (
+                  <span className="text-[#666666]"> ({item.duration})</span>
+                )}
+              </span>
+              
+              {/* Dotted leader */}
+              <span className="price-dots" />
+              
+              {/* Price */}
+              <span className="text-[13px] text-[#1a1a1a] whitespace-nowrap md:text-[14px]">
+                {item.price}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

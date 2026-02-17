@@ -4,137 +4,100 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// Navigation links exactly as shown in PNG: NAŠ TIM | USLUGE | CENOVNIK | GALERIJA | KONTAKT
 const navLinks = [
-  { href: "#home", label: "Početak" },
-  { href: "#about", label: "Berberi" },
-  { href: "#prices", label: "Cene" },
-  { href: "#visit", label: "Posetite nas" },
-  { href: "#gallery", label: "Galerija" },
-  { href: "/admin", label: "Admin" },
+  { href: "#tim", label: "NAŠ TIM" },
+  { href: "#usluge", label: "USLUGE" },
+  { href: "#cenovnik", label: "CENOVNIK" },
+  { href: "#galerija", label: "GALERIJA" },
+  { href: "#kontakt", label: "KONTAKT" },
 ];
-
-const SECTION_IDS = navLinks.map((l) => l.href.slice(1));
-const ID_TO_LABEL = Object.fromEntries(navLinks.map((l) => [l.href.slice(1), l.label]));
-
-function getActiveLabel(): string {
-  const offset = 120;
-  let currentId: string | null = null;
-  for (const id of SECTION_IDS) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    const top = el.getBoundingClientRect().top;
-    if (top <= offset) currentId = id;
-  }
-  return (currentId && ID_TO_LABEL[currentId]) || "Početak";
-}
 
 export function Header({ onBookClick }: { onBookClick: () => void }) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Početak");
   const [scrolled, setScrolled] = useState(false);
-  const isAdmin = pathname === "/admin";
+  const isAdmin = pathname?.startsWith("/admin");
 
   useEffect(() => {
-    if (isAdmin) {
-      setActiveLink("Admin");
-      return;
-    }
+    if (isAdmin) return;
+    
     const handleScroll = () => {
-      setActiveLink(getActiveLabel());
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
     };
+    
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isAdmin]);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
     <header
-      className={`sticky top-0 z-50 w-full px-4 py-4 sm:px-6 lg:px-8 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? "bg-[#0A0A0B]/95 backdrop-blur-md border-b border-[#2A2A2F]" 
+          ? "bg-black/90 backdrop-blur-sm" 
           : "bg-transparent"
       }`}
       role="banner"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between">
+      {/* Desktop Navigation - centered at top */}
+      <nav
+        className="hidden md:flex items-center justify-center gap-12 py-6"
+        aria-label="Main navigation"
+      >
+        {navLinks.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={isAdmin ? `/${href}` : href}
+            className="text-[11px] font-medium tracking-[0.15em] text-white/90 transition-colors hover:text-white focus-ring"
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Mobile Header */}
+      <div className="md:hidden flex items-center justify-between px-5 py-4">
         <Link
-          href={isAdmin ? "/" : "#home"}
-          className="text-xl font-bold tracking-tight text-[#F5F5F7] focus-ring rounded transition-default hover:opacity-70"
-          onClick={() => setActiveLink("Početak")}
+          href="/"
+          className="text-[11px] font-medium tracking-[0.15em] text-white"
         >
-          RSBARBERSHOP
+          MENU
         </Link>
-
-        <nav
-          className="hidden items-center gap-1 md:flex"
-          aria-label="Main navigation"
+        
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="flex h-8 w-8 flex-col items-center justify-center gap-1 text-white focus-ring"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
+          aria-label="Toggle menu"
         >
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={label === "Početak" && isAdmin ? "/" : href}
-              className={`relative px-4 py-2.5 text-sm font-medium tracking-wide transition-default focus-ring ${
-                activeLink === label || (label === "Admin" && isAdmin)
-                  ? "text-[#F5F5F7] after:absolute after:bottom-0 after:left-4 after:right-4 after:h-[2px] after:bg-[#F5F5F7]"
-                  : "text-[#6B6B70] hover:text-[#F5F5F7]"
-              }`}
-              onClick={() => setActiveLink(label)}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onBookClick}
-            className="hidden md:block min-h-[44px] rounded-sm bg-[#D3AF37] px-6 py-2.5 text-sm font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A] active:scale-[0.98]"
-          >
-            Zakažite termin
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-sm text-[#F5F5F7] focus-ring md:hidden hover:bg-[#1A1A1F]"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label="Toggle menu"
-          >
-            <span className={`h-0.5 w-5 bg-current transition-transform ${mobileMenuOpen ? "translate-y-2 rotate-45" : ""}`} />
-            <span className={`h-0.5 w-5 bg-current transition-opacity ${mobileMenuOpen ? "opacity-0" : ""}`} />
-            <span className={`h-0.5 w-5 bg-current transition-transform ${mobileMenuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
-          </button>
-        </div>
+          <span className={`h-[1px] w-5 bg-current transition-all duration-300 ${mobileMenuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
+          <span className={`h-[1px] w-5 bg-current transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : ""}`} />
+          <span className={`h-[1px] w-5 bg-current transition-all duration-300 ${mobileMenuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
+        </button>
       </div>
 
+      {/* Mobile Menu */}
       <div
         id="mobile-menu"
-        className={`md:hidden overflow-hidden transition-all duration-300 ${
-          mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`md:hidden overflow-hidden transition-all duration-300 bg-black/95 ${
+          mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
         }`}
         aria-hidden={!mobileMenuOpen}
       >
-        <nav
-          className="flex flex-col gap-1 border-t border-[#2A2A2F] py-4 mt-4"
-          aria-label="Mobile navigation"
-        >
+        <nav className="flex flex-col items-center gap-6 py-8">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
-              href={label === "Početak" && isAdmin ? "/" : href}
-              className={`px-4 py-3 text-base font-medium focus-ring transition-default border-l-2 ${
-                activeLink === label
-                  ? "border-[#F5F5F7] bg-[#1A1A1F] text-[#F5F5F7]"
-                  : "border-transparent text-[#6B6B70] hover:text-[#F5F5F7] hover:bg-[#1A1A1F]/50"
-              }`}
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setActiveLink(label);
-              }}
+              href={isAdmin ? `/${href}` : href}
+              className="text-[12px] font-medium tracking-[0.15em] text-white/80 transition-colors hover:text-white"
+              onClick={() => setMobileMenuOpen(false)}
             >
               {label}
             </Link>
@@ -145,9 +108,9 @@ export function Header({ onBookClick }: { onBookClick: () => void }) {
               setMobileMenuOpen(false);
               onBookClick();
             }}
-            className="mx-4 mt-3 min-h-[48px] rounded-sm bg-[#D3AF37] px-6 py-3.5 text-base font-semibold text-[#0A0A0B] transition-default focus-ring hover:bg-[#E0C04A]"
+            className="mt-4 btn-outline-white"
           >
-            Zakažite termin
+            ZAKAŽI TERMIN
           </button>
         </nav>
       </div>
