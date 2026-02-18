@@ -37,12 +37,7 @@ export function Gallery() {
       aria-labelledby="gallery-heading"
     >
       {/* Heading */}
-      <div
-        className={`text-center mb-8 md:mb-10 px-5 transition-all duration-[0.9s] ${
-          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-        style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-      >
+      <div className="text-center mb-8 md:mb-10 px-5">
         <h2
           id="gallery-heading"
           className="font-heading text-[28px] text-white/80 leading-[1.3] sm:text-[32px] md:text-[42px] lg:text-[52px]"
@@ -50,7 +45,7 @@ export function Gallery() {
           LET YOUR HAIRSTYLE<br />
           DO THE TALKING
         </h2>
-        <span className={`block h-[3px] w-16 bg-[#D4AF37] mt-4 mx-auto origin-center transition-transform duration-700 delay-300 ${inView ? "scale-x-100" : "scale-x-0"}`} />
+        <span className="block h-[3px] w-16 bg-[#D4AF37] mt-4 mx-auto" />
       </div>
 
       {/* Image grid - staggered reveals + hover zoom */}
@@ -74,12 +69,6 @@ export function Gallery() {
               sizes="(max-width: 640px) 50vw, 33vw"
               loading="lazy"
             />
-            {/* Hover overlay with text */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-500">
-              <span className="text-white text-[11px] tracking-[0.2em] uppercase opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
-                {image.alt}
-              </span>
-            </div>
           </div>
         ))}
       </div>

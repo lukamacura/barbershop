@@ -14,11 +14,18 @@ const montserrat = Montserrat({
 // These will be defined in CSS with fallbacks
 
 export const metadata: Metadata = {
-  title: "BARBERSHOP EST. 2018 | Kać",
+  title: "RSBARBERSHOP",
   description: "Profesionalan pristup, savremeni trendovi i osećaj premium nege. Zakažite svoj termin online.",
   keywords: ["barbershop", "frizer", "šišanje", "brada", "Kać", "Novi Sad"],
+  icons: {
+    icon: [
+      { url: "/favico.png", type: "image/png" },
+    ],
+    shortcut: "/favico.png",
+    apple: "/favico.png",
+  },
   openGraph: {
-    title: "BARBERSHOP EST. 2018",
+    title: "RSBARBERSHOP",
     description: "Profesionalan pristup, savremeni trendovi i osećaj premium nege.",
     type: "website",
     locale: "sr_RS",

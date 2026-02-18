@@ -21,7 +21,9 @@ const BARBERS = [
 function getTodayPlusNextFiveWorkingDays(): { id: string; label: string; date: Date; isToday: boolean }[] {
   const days: { id: string; label: string; date: Date; isToday: boolean }[] = [];
   const dayNames = ["Nedelja", "Ponedeljak", "Utorak", "Sreda", "Četvrtak", "Petak", "Subota"];
-  const d = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to start of day
+  const d = new Date(today); // Start from today
   let count = 0;
   let isFirstDay = true;
   
@@ -31,11 +33,12 @@ function getTodayPlusNextFiveWorkingDays(): { id: string; label: string; date: D
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
+      const isToday = d.getTime() === today.getTime();
       days.push({
         id: `${y}-${m}-${day}`,
         label: dayNames[dayOfWeek],
         date: new Date(d),
-        isToday: isFirstDay,
+        isToday: isToday,
       });
       count++;
       isFirstDay = false;
@@ -71,6 +74,17 @@ function formatDayDate(d: Date): string {
 }
 
 const SLOT_DURATION = 30;
+
+/**
+ * Check if a time slot is valid for today (must be at least 2 hours from now)
+ */
+function isTodaySlotValid(slotTime: string, slotDate: Date): boolean {
+  const [hours, minutes] = slotTime.split(":").map(Number);
+  const slotDateTime = new Date(slotDate);
+  slotDateTime.setHours(hours, minutes, 0, 0);
+  const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
+  return slotDateTime >= twoHoursFromNow;
+}
 
 /** Segment order and labels for grouping services in the booking modal */
 const SERVICE_SEGMENT_ORDER = [
@@ -144,8 +158,6 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
     if (!selectedBarber || !availabilityData) return [];
 
     const filtered: DayOption[] = [];
-    const now = new Date();
-    const minBookableTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
 
     for (const day of allWorkingDays) {
       const dateStr = day.id;
@@ -166,16 +178,17 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
       });
 
       const freeSlots = allSlots.filter((slotTime) => {
-        const [hours, minutes] = slotTime.split(":").map(Number);
-        const slotStart = new Date(day.date);
-        slotStart.setHours(hours, minutes, 0, 0);
-
-        if (isToday && slotStart < minBookableTime) {
+        // For today: filter out slots less than 2 hours from now
+        if (isToday && !isTodaySlotValid(slotTime, day.date)) {
           return false;
         }
 
+        // Check for conflicts with existing reservations
+        const [hours, minutes] = slotTime.split(":").map(Number);
+        const slotStart = new Date(day.date);
+        slotStart.setHours(hours, minutes, 0, 0);
         const slotEnd = new Date(slotStart);
-        slotEnd.setMinutes(slotEnd.getMinutes() + 30);
+        slotEnd.setMinutes(slotEnd.getMinutes() + SLOT_DURATION);
 
         const slotStartMs = slotStart.getTime();
         const slotEndMs = slotEnd.getTime();
@@ -200,8 +213,6 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
 
     const dateStr = selectedDay.id;
     const isToday = selectedDay.isToday;
-    const now = new Date();
-    const minBookableTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
 
     const availRecord = availabilityData.availability.find((a) => a.date === dateStr);
     const workingStart = availRecord?.working_hours_start || "10:00:00";
@@ -215,16 +226,17 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
     });
 
     return allSlots.filter((slotTime) => {
-      const [hours, minutes] = slotTime.split(":").map(Number);
-      const slotStart = new Date(selectedDay.date);
-      slotStart.setHours(hours, minutes, 0, 0);
-
-      if (isToday && slotStart < minBookableTime) {
+      // For today: filter out slots less than 2 hours from now
+      if (isToday && !isTodaySlotValid(slotTime, selectedDay.date)) {
         return false;
       }
 
+      // Check for conflicts with existing reservations
+      const [hours, minutes] = slotTime.split(":").map(Number);
+      const slotStart = new Date(selectedDay.date);
+      slotStart.setHours(hours, minutes, 0, 0);
       const slotEnd = new Date(slotStart);
-      slotEnd.setMinutes(slotEnd.getMinutes() + 30);
+      slotEnd.setMinutes(slotEnd.getMinutes() + SLOT_DURATION);
 
       const slotStartMs = slotStart.getTime();
       const slotEndMs = slotEnd.getTime();

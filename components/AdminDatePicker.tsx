@@ -44,26 +44,26 @@ export function AdminDatePicker({ value, onChange, datesWithReservations = new S
   for (let d = 1; d <= daysInMonth; d++) days.push(d);
 
   return (
-    <div className={`admin-date-picker rounded-[14px] border border-[#2A2A2F] bg-[#141417] p-5 ${className}`}>
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-base font-semibold text-[#F5F5F7]">{MONTHS[month]} {year}</h3>
+    <div className={`admin-date-picker rounded-[20px] border border-white/10 bg-white/3 backdrop-blur-sm p-6 ${className}`}>
+      <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
+        <h3 className="font-heading text-[16px] uppercase tracking-wider text-white md:text-[18px]">{MONTHS[month]} {year}</h3>
         <div className="flex items-center gap-1">
           <button type="button" onClick={prevMonth}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-[#A1A1A6] transition-colors hover:bg-[#1A1A1F] hover:text-[#F5F5F7] focus-ring"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring"
             aria-label="Previous month">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
           <button type="button" onClick={nextMonth}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-[#A1A1A6] transition-colors hover:bg-[#1A1A1F] hover:text-[#F5F5F7] focus-ring"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring"
             aria-label="Next month">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6" /></svg>
           </button>
         </div>
       </div>
 
-      <div className="mb-3 grid grid-cols-7 gap-1">
+      <div className="mb-4 grid grid-cols-7 gap-1.5">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="py-1 text-center text-[10px] font-medium uppercase tracking-wider text-[#6B6B70]">{d}</div>
+          <div key={d} className="py-2 text-center font-heading text-[9px] uppercase tracking-widest text-[#D4AF37]">{d}</div>
         ))}
         {days.map((day, i) => {
           if (day === null) return <div key={`empty-${i}`} />;
@@ -73,13 +73,13 @@ export function AdminDatePicker({ value, onChange, datesWithReservations = new S
           const selectedClass = isSelected(day);
           return (
             <button key={day} type="button" onClick={() => handleDayClick(day)}
-              className={`relative flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all focus-ring
-                ${selectedClass ? "bg-[#D3AF37] text-[#0A0A0B] shadow-sm"
-                  : todayClass ? "border border-[#D3AF37] text-[#D3AF37] hover:bg-[#D3AF37]/10"
-                  : "text-[#F5F5F7] hover:bg-[#1A1A1F]"}`}>
+              className={`relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 focus-ring
+                ${selectedClass ? "bg-[#D4AF37] text-[#1a1a1a] shadow-lg shadow-[#D4AF37]/30 scale-110"
+                  : todayClass ? "border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/20"
+                  : "text-white/70 hover:bg-white/10 hover:text-white"}`}>
               {day}
               {hasReservations && !selectedClass && (
-                <span className={`absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full ${todayClass ? "bg-[#D3AF37]" : "bg-[#6B6B70]"}`} />
+                <span className={`absolute bottom-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full ${todayClass ? "bg-[#D4AF37]" : "bg-[#D4AF37]/60"}`} />
               )}
             </button>
           );
@@ -87,8 +87,8 @@ export function AdminDatePicker({ value, onChange, datesWithReservations = new S
       </div>
 
       <button type="button" onClick={goToToday}
-        className="w-full min-h-[40px] rounded-lg border border-[#2A2A2F] py-2 text-sm font-medium text-[#A1A1A6] transition-colors hover:border-[#3A3A40] hover:bg-[#1A1A1F] hover:text-[#F5F5F7] focus-ring">
-        Today
+        className="w-full min-h-[44px] rounded-full border-2 border-white/20 bg-transparent py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring">
+        Danas
       </button>
     </div>
   );
