@@ -41,18 +41,18 @@ export default function AdminLoginPage() {
           <h1 className="font-heading text-[36px] text-white md:text-[42px] lg:text-[48px]">
             ADMIN PRIJAVA
           </h1>
-          <span className="mt-4 mx-auto block h-[3px] w-16 bg-[#D4AF37] origin-center" />
+          <span className="mt-4 mx-auto block h-[3px] w-16 bg-[#ffffff] origin-center" />
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <label className="block">
-            <span className="mb-3 block font-heading text-[11px] uppercase tracking-widest text-[#D4AF37]">
+            <span className="mb-3 block font-heading text-[11px] uppercase tracking-widest text-[#ffffff]">
               Lozinka
             </span>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full min-h-[52px] rounded-full border-2 border-white/20 bg-[#1a1a1a] px-6 py-3 text-white placeholder:text-white/40 transition-all duration-300 focus:border-[#D4AF37] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/30"
+              className="w-full min-h-[52px] rounded-full border-2 border-white/20 bg-[#1a1a1a] px-6 py-3 text-white placeholder:text-white/40 transition-all duration-300 focus:border-[#ffffff] focus:outline-none focus:ring-2 focus:ring-[#ffffff]/30"
               placeholder="Unesite lozinku"
               autoFocus
             />
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading || !password}
-            className="w-full min-h-[52px] rounded-full bg-[#D4AF37] py-3 text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] transition-all duration-300 hover:bg-[#c9a430] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+            className="w-full min-h-[52px] rounded-full bg-[#ffffff] py-3 text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] transition-all duration-300 hover:bg-[#E5E5E5] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
           >
             {loading ? "PRIJAVLJIVANJE..." : "PRIJAVI SE"}
           </button>
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
         <p className="mt-8 text-center">
           <Link
             href="/"
-            className="text-[12px] font-medium tracking-wider text-white/60 hover:text-[#D4AF37] transition-colors duration-300"
+            className="text-[12px] font-medium tracking-wider text-white/60 hover:text-[#ffffff] transition-colors duration-300"
           >
             &larr; Nazad na sajt
           </Link>

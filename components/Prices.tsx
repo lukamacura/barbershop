@@ -50,7 +50,7 @@ export function Prices({ onBookClick }: { onBookClick?: () => void }) {
           >
             CENOVNIK
           </h2>
-          <span className={`block h-[3px] w-16 bg-[#D4AF37] mt-3 mx-auto origin-center transition-transform duration-700 delay-300 ${inView ? "scale-x-100" : "scale-x-0"}`} />
+          <span className={`block h-[3px] w-16 bg-[#1a1a1a] mt-3 mx-auto origin-center transition-transform duration-700 delay-300 ${inView ? "scale-x-100" : "scale-x-0"}`} />
         </div>
 
         {/* Price rows - staggered line-by-line reveal */}

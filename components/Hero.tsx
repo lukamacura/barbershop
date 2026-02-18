@@ -66,7 +66,7 @@ export function Hero({
         <button
           type="button"
           onClick={onBookClick}
-          className={`mt-[18px] cursor-pointer md:mt-6 font-bold rounded-full px-12 py-6 bg-white border border-white text-[#1a1a1a] text-[15px] tracking-[0.2em] uppercase transition-colors duration-150 hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white ${
+          className={`mt-[18px] cursor-pointer md:mt-6 font-bold rounded-full px-12 py-6 bg-white border border-white text-[#1a1a1a] text-[15px] tracking-[0.2em] uppercase transition-colors duration-150 hover:bg-[#333333] hover:border-[#333333] hover:text-white ${
             loaded
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"

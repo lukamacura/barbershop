@@ -191,13 +191,13 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
           <h1 className="font-heading text-[42px] text-white md:text-[48px] lg:text-[56px]">
             DOSTUPNOST BERBERA
           </h1>
-          <span className="mt-3 block h-[3px] w-16 bg-[#D4AF37] origin-left" />
+          <span className="mt-3 block h-[3px] w-16 bg-[#ffffff] origin-left" />
           <p className="mt-4 text-[15px] text-white/60 md:text-[16px]">
             Upravljanje radnim danima i dostupnošću
           </p>
         </div>
         <a href="/admin"
-          className="flex items-center gap-2 min-h-[44px] rounded-full border-2 border-white/20 bg-transparent px-6 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring">
+          className="flex items-center gap-2 min-h-[44px] rounded-full border-2 border-white/20 bg-transparent px-6 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#ffffff] hover:bg-[#ffffff] hover:text-[#1a1a1a] focus-ring">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M15 18l-6-6 6-6" />
           </svg>
@@ -208,13 +208,13 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
       {/* Controls - Premium cards */}
       <div className="mb-10 space-y-6">
         <div className="rounded-[20px] border border-white/10 bg-white/3 backdrop-blur-sm p-6">
-          <label className="mb-4 block font-heading text-[13px] uppercase tracking-widest text-[#D4AF37]">
+          <label className="mb-4 block font-heading text-[13px] uppercase tracking-widest text-[#ffffff]">
             Izaberi berbera
           </label>
           <select
             value={selectedBarberId}
             onChange={(e) => handleBarberChange(Number(e.target.value))}
-            className="w-full min-h-[48px] rounded-full border-2 border-white/20 bg-[#1a1a1a] px-5 py-3 text-sm font-medium text-white transition-all duration-300 focus:border-[#D4AF37] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/30"
+            className="w-full min-h-[48px] rounded-full border-2 border-white/20 bg-[#1a1a1a] px-5 py-3 text-sm font-medium text-white transition-all duration-300 focus:border-[#ffffff] focus:outline-none focus:ring-2 focus:ring-[#ffffff]/30"
           >
             {barbers.map((b) => (
               <option key={b.id} value={b.id}>
@@ -229,7 +229,7 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
           <button
             type="button"
             onClick={handlePreviousWeek}
-            className="flex items-center gap-2 min-h-[48px] rounded-full border-2 border-white/20 bg-transparent px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring"
+            className="flex items-center gap-2 min-h-[48px] rounded-full border-2 border-white/20 bg-transparent px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#ffffff] hover:bg-[#ffffff] hover:text-[#1a1a1a] focus-ring"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" />
@@ -237,14 +237,14 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
             Prethodna
           </button>
 
-          <span className="font-heading text-[14px] uppercase tracking-wider text-[#D4AF37]">
+          <span className="font-heading text-[14px] uppercase tracking-wider text-[#ffffff]">
             {formatSerbianDate(weekStart)} - {formatSerbianDate(weekEndDate)}
           </span>
 
           <button
             type="button"
             onClick={handleNextWeek}
-            className="flex items-center gap-2 min-h-[48px] rounded-full border-2 border-white/20 bg-transparent px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1a1a1a] focus-ring"
+            className="flex items-center gap-2 min-h-[48px] rounded-full border-2 border-white/20 bg-transparent px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase text-white transition-all duration-300 hover:border-[#ffffff] hover:bg-[#ffffff] hover:text-[#1a1a1a] focus-ring"
           >
             Sledeća
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -263,7 +263,7 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
               key={date}
               className={`rounded-[20px] border-2 p-6 backdrop-blur-sm transition-all duration-300 ${
                 isAvailable
-                  ? "border-[#D4AF37]/50 bg-[#D4AF37]/10"
+                  ? "border-[#ffffff]/50 bg-[#ffffff]/10"
                   : "border-white/10 bg-white/3"
               }`}
             >
@@ -281,7 +281,7 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
                   onClick={() => toggleDay(date)}
                   className={`min-h-[48px] rounded-full px-6 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-300 focus-ring ${
                     isAvailable
-                      ? "bg-[#D4AF37] text-[#1a1a1a] hover:bg-[#c9a430] hover:scale-105"
+                      ? "bg-[#ffffff] text-[#1a1a1a] hover:bg-[#E5E5E5] hover:scale-105"
                       : "border-2 border-white/20 bg-transparent text-white/60 hover:border-white/40 hover:text-white"
                   }`}
                 >
@@ -311,7 +311,7 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
           type="button"
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 min-h-[48px] rounded-full bg-[#D4AF37] px-8 py-2.5 text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] transition-all duration-300 hover:bg-[#c9a430] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2 focus:ring-offset-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="flex items-center gap-2 min-h-[48px] rounded-full bg-[#ffffff] px-8 py-2.5 text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] transition-all duration-300 hover:bg-[#E5E5E5] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#ffffff] focus:ring-offset-2 focus:ring-offset-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {isSaving ? (
             <>
@@ -353,7 +353,7 @@ export function AdminAvailabilityCalendar({ barbers, initialAvailability, initia
         <div
           className={`mt-6 flex items-center gap-3 rounded-[20px] border-2 px-6 py-4 text-sm backdrop-blur-sm ${
             message.type === "success"
-              ? "border-[#D4AF37]/50 bg-[#D4AF37]/10 text-[#D4AF37]"
+              ? "border-[#ffffff]/50 bg-[#ffffff]/10 text-[#ffffff]"
               : "border-red-500/50 bg-red-500/10 text-red-400"
           }`}
         >

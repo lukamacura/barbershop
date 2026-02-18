@@ -45,7 +45,7 @@ export function Gallery() {
           LET YOUR HAIRSTYLE<br />
           DO THE TALKING
         </h2>
-        <span className="block h-[3px] w-16 bg-[#D4AF37] mt-4 mx-auto" />
+        <span className="block h-[3px] w-16 bg-white mt-4 mx-auto" />
       </div>
 
       {/* Image grid - staggered reveals + hover zoom */}

@@ -59,7 +59,7 @@ export function Barbers() {
             }`}
             style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
           >
-            <div className="relative aspect-[3/4] overflow-hidden rounded-t-[50%] mx-auto max-w-[380px] lg:max-w-none group">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-lg mx-auto max-w-[380px] lg:max-w-none group">
               <Image
                 src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=800&fit=crop"
                 alt="Profesionalni berber na poslu"
@@ -104,8 +104,8 @@ export function Barbers() {
               NAŠ TIM
             </h2>
 
-            {/* Gold underline grows in */}
-            <span className={`block h-[3px] w-16 bg-[#D4AF37] mt-3 origin-left transition-transform duration-700 delay-500 mx-auto lg:mx-0 ${inView ? "scale-x-100" : "scale-x-0"}`} />
+            {/* Accent underline grows in */}
+            <span className={`block h-[3px] w-16 bg-white mt-3 origin-left transition-transform duration-700 delay-500 mx-auto lg:mx-0 ${inView ? "scale-x-100" : "scale-x-0"}`} />
 
             <p
               className={`mt-5 text-[16px] font-medium italic text-white/90 md:text-[18px] transition-all duration-700 delay-[500ms] ${

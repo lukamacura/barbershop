@@ -67,8 +67,8 @@ export function Services({ onBookClick }: { onBookClick?: () => void }) {
               USLUGE
             </h2>
 
-            {/* Gold underline grows in */}
-            <span className={`block h-[3px] w-16 bg-[#D4AF37] mt-3 origin-left transition-transform duration-700 delay-300 ${inView ? "scale-x-100" : "scale-x-0"}`} />
+            {/* Accent underline grows in */}
+            <span className={`block h-[3px] w-16 bg-[#1a1a1a] mt-3 origin-left transition-transform duration-700 delay-300 ${inView ? "scale-x-100" : "scale-x-0"}`} />
 
             <p
               className={`mt-5 text-[16px] font-medium text-[#1a1a1a] md:text-[17px] transition-all duration-700 delay-300 ${
@@ -89,7 +89,7 @@ export function Services({ onBookClick }: { onBookClick?: () => void }) {
             <button
               type="button"
               onClick={onBookClick}
-              className={`mt-8 cursor-pointer font-bold rounded-full px-8 py-4 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] tracking-[0.2em] uppercase transition-colors duration-150 hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white ${
+              className={`mt-8 cursor-pointer font-bold rounded-full px-8 py-4 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] tracking-[0.2em] uppercase transition-colors duration-150 hover:bg-[#1a1a1a] hover:border-[#1a1a1a] hover:text-white ${
                 inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >

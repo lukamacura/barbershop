@@ -99,10 +99,10 @@ export function Location() {
             >
               POSETITE NAS
             </h2>
-            <span className={`block h-[3px] w-12 bg-[#D4AF37] mb-5 origin-left transition-transform duration-700 delay-500 ${inView ? "scale-x-100" : "scale-x-0"}`} />
+            <span className={`block h-[3px] w-12 bg-white mb-5 origin-left transition-transform duration-700 delay-500 ${inView ? "scale-x-100" : "scale-x-0"}`} />
 
             <div className="space-y-3 text-[14px] text-white/80 md:text-[15px]">
-              {[{ label: "Ponedeljak - Petak", time: "10h - 19h" }, { label: "Subota", time: "10h - 19h" }].map((slot, i) => (
+              {[{ label: "Ponedeljak - Petak", time: "10h - 19h" }, { label: "Subota", time: "8h - 14h" }].map((slot, i) => (
                 <div
                   key={slot.label}
                   className={`transition-all duration-600 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
@@ -129,7 +129,7 @@ export function Location() {
             >
               KONTAKT
             </h3>
-            <span className={`block h-[3px] w-12 bg-[#D4AF37] mb-5 origin-left transition-transform duration-700 delay-[550ms] ${inView ? "scale-x-100" : "scale-x-0"}`} />
+            <span className={`block h-[3px] w-12 bg-white mb-5 origin-left transition-transform duration-700 delay-[550ms] ${inView ? "scale-x-100" : "scale-x-0"}`} />
 
             {/* Contact items staggered */}
             <div className="space-y-3 mb-8">

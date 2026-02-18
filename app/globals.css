@@ -210,15 +210,17 @@ body {
   transform: scale(1.08);
 }
 
-/* Gold underline grow */
+/* Accent underline grow (black/white theme) */
+.accent-line-grow,
 .gold-line-grow {
   display: block;
   height: 3px;
-  background: #D4AF37;
+  background: var(--color-black);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.in-view .accent-line-grow,
 .in-view .gold-line-grow { transform: scaleX(1); }
 
 /* Scroll reveal (legacy compat) */
